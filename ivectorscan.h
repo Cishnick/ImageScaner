@@ -1,0 +1,4 @@
+#ifndef IVECTORSCAN_H
+#define IVECTORSCAN_H
+
+#endif // IVECTORSCAN_H

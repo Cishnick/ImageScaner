@@ -1,0 +1,4 @@
+#ifndef TOTALDEFINES_H
+#define TOTALDEFINES_H
+
+#endif // TOTALDEFINES_H

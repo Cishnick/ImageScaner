@@ -1,0 +1,4 @@
+#ifndef GRAPHICCLASSES_H
+#define GRAPHICCLASSES_H
+
+#endif // GRAPHICCLASSES_H

@@ -1,0 +1,4 @@
+#ifndef VECTOREDITOR_H
+#define VECTOREDITOR_H
+
+#endif // VECTOREDITOR_H
