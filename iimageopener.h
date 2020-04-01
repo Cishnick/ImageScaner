@@ -2,16 +2,54 @@
 #define IMAGEOPENER_H
 
 #include <QObject>
+#include "totaldefines.h"
 
-class IImageOpener : public QObject
+namespace _ImageOpener
 {
-    Q_OBJECT
-public:
-    explicit IImageOpener(QObject *parent = nullptr);
+    class IImageOpener : public QObject
+    {
+        Q_OBJECT
+    protected:
+        explicit IImageOpener(QObject *parent = nullptr) : QObject(parent) {}
+        virtual ~IImageOpener() = default;
+    signals:
 
-signals:
+        // Передает открытое изображение
+        void openedImage(QImage const&);
 
-public slots:
-};
+        // Передает открытое изображение в виде массива байт
+        void openedByteImage(ByteImage const&);
 
+        // Высылает имя последнего открытого файла
+        void lastFileName(QString const&);
+
+        // Испускается после открытия изображения
+        void openedImage();
+
+    public slots:
+
+        // Команда открыть файл
+        virtual void openFile() = 0;
+
+        // Делает то же, что и при openFile, но уже с готовым изображением
+        virtual void openImage(QImage const& img) = 0;
+
+        // Инициирует отправку сигнала openedByteImage
+        virtual void getByteImage() = 0;
+
+        // Инициирует отправку сигнала openedByteImage
+        virtual void getImage() = 0;
+
+        // Для получения имени последнего открытого файла
+        virtual void getLastFileName() = 0;
+    };
+
+    // Создает реализацию IImageOpener
+    class FactoryImageOpener
+    {
+    public:
+        static IImageOpener* create(QObject* parent = nullptr);
+    };
+
+}
 #endif // IMAGEOPENER_H

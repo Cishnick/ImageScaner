@@ -25,11 +25,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        calcline.cpp \
+        imageopener.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        plotterwid.cpp \
+        vectoreditor.cpp \
+        vectorscan.cpp
 
 HEADERS += \
-        mainwindow.h
+        calcline.h \
+        graphicclasses.h \
+        iimageopener.h \
+        imageopener.h \
+        iplotter.h \
+        ivectoreditor.h \
+        ivectorscan.h \
+        mainwindow.h \
+        plotter.h \
+        plotterwid.h \
+        plotterwidstructs.h \
+        totaldefines.h \
+        vectoreditor.h \
+        vectorscan.h \
+        vectorwidget.h
 
 FORMS += \
         mainwindow.ui
