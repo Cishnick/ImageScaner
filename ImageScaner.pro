@@ -29,11 +29,13 @@ SOURCES += \
         imageopener.cpp \
         main.cpp \
         mainwindow.cpp \
+        options.cpp \
         plotterwid.cpp \
         vectoreditor.cpp \
         vectorscan.cpp
 
 HEADERS += \
+        IPlotterWid.h \
         calcline.h \
         graphicclasses.h \
         iimageopener.h \
@@ -42,18 +44,21 @@ HEADERS += \
         ivectoreditor.h \
         ivectorscan.h \
         mainwindow.h \
-        plotter.h \
+        options.h \
         plotterwid.h \
-        plotterwidstructs.h \
         totaldefines.h \
         vectoreditor.h \
         vectorscan.h \
         vectorwidget.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        options.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    imagescanermodel.qmodel

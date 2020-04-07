@@ -49,9 +49,11 @@ signals:
     // Сигнал открытия файла
     void openFile();
 
-    void openImage(QImage const&);
+    void openImage(QImage const&, QString const);
 
     void savePlot();
+
+    void openWindowOption();
 
 private slots:
     // Слот для пункта меню open
@@ -60,7 +62,6 @@ private slots:
     void on_actionExit_triggered();
 
     void on_actionSave_triggered();
-
 
     void on_action_About_triggered();
 
@@ -75,6 +76,8 @@ private slots:
     void on_actionClose_triggered();
 
     void on_actionClose_All_triggered();
+
+    void on_actionOption_triggered();
 
 private:
     Ui::MainWindow *ui;

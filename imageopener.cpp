@@ -56,9 +56,10 @@ void ImageOpener::getLastFileName()
 }
 
 // ----------------------------------- openImage ----------------------------------------
-void ImageOpener::openImage(const QImage &img)
+void ImageOpener::openImage(const QImage &img, QString const fileName)
 {
     image = img;
+    _lastFileName = fileName;
     translateImage();
     emit openedImage();
     emit openedImage(image);

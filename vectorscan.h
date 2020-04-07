@@ -20,6 +20,9 @@ namespace _VectorScan
 
         virtual ~VectorScan() override;
 
+    signals:
+        void openWindowOption_sg();
+
     protected slots:
         virtual void openedImage(const QImage &) override;
 
@@ -28,6 +31,8 @@ namespace _VectorScan
         virtual void LastFileName(const QString &filename) override;
 
         virtual void savePlot() override;
+
+        virtual void openWindowOption() override;
 
     private slots:
 

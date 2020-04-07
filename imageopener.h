@@ -11,7 +11,16 @@ namespace _ImageOpener
         Q_OBJECT
     public:
         ImageOpener(QObject* parent) :
-            IImageOpener (parent) { }
+            IImageOpener (parent)
+        {
+            // Инициализируем фильтр из списка форматов
+            Filter = "Image( ";
+            for(auto format : _fileFormats)
+            {
+                Filter += '*' + format + ' ';
+            }
+            Filter += ")";
+        }
 
         virtual ~ImageOpener() override = default;
 
@@ -24,7 +33,7 @@ namespace _ImageOpener
 
         virtual void getLastFileName() override;
 
-        virtual void openImage(const QImage &img) override;
+        virtual void openImage(const QImage &img, QString const fileName) override;
     private:
 
         // Преобразует image в ByteImage, и инициализирует bImage
@@ -38,7 +47,7 @@ namespace _ImageOpener
         ByteImage bImage;
 
         // Фильтр для окна открытия файла
-        const QString Filter = "Image(*.bmp *.png *.jpg *.jpeg *.tiff)";
+        QString Filter;
 
         // Хранит имя последнего открытого файла
         QString _lastFileName;

@@ -32,7 +32,7 @@ namespace _ImageOpener
         virtual void openFile() = 0;
 
         // Делает то же, что и при openFile, но уже с готовым изображением
-        virtual void openImage(QImage const& img) = 0;
+        virtual void openImage(QImage const& img, QString const fileName) = 0;
 
         // Инициирует отправку сигнала openedByteImage
         virtual void getByteImage() = 0;

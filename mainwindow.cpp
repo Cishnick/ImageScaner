@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Инициализируем многооконный интерфейс
     mdi = new QMdiArea(this);
+    mdi->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAsNeeded);
+    mdi->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAsNeeded);
     setCentralWidget(mdi);
 
     actGroup = new QActionGroup(this);
@@ -30,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(opener, SIGNAL(openedImage()),
             this,  SLOT(openedImage()) );
 
-    connect(this, SIGNAL(openImage(QImage const&)),
-            opener, SLOT(openImage(QImage const&)) );
+    connect(this, SIGNAL(openImage(QImage const&, QString const)),
+            opener, SLOT(openImage(QImage const&, QString const)) );
 
     connect(mdi, SIGNAL(subWindowActivated(QMdiSubWindow*)),
             this, SLOT(subWindowActivated(QMdiSubWindow*)) );
@@ -55,6 +57,8 @@ void MainWindow::showWidget(QWidget *widget)
     else
     {
         t->resize(widget->size());
+        t->setMaximumSize(widget->maximumSize());
+        t->setMinimumSize(widget->minimumSize());
     }
 
     auto flag = widget->windowFlags();
@@ -134,6 +138,9 @@ void MainWindow::openedImage()
     // Соединяем слот для показа нового окна
     connect(scaner, SIGNAL(showWidget(QWidget*)),
             this, SLOT(showWidget(QWidget*)) );
+
+    connect(this, SIGNAL(openWindowOption()),
+            scaner, SLOT(openWindowOption()) );
 
     scanerList.push_back(scaner);
 }
@@ -225,8 +232,7 @@ void MainWindow::dropEvent(QDropEvent *event)
         auto exp = filename.split('.').last();
         if(_fileFormats.contains(exp))
         {
-            qDebug() << filename;
-            emit openImage(QImage(filename));
+            emit openImage(QImage(filename), filename);
             event->acceptProposedAction();
             return;
         }
@@ -246,9 +252,10 @@ void MainWindow::on_action_Copy_triggered()
 void MainWindow::on_action_Paste_triggered()
 {
     auto img = QApplication::clipboard()->image();
+    static int number = 1;
     if(!img.isNull())
     {
-        emit openImage(img);
+        emit openImage(img, "Copy_" + QString::number(number));
     }
 }
 
@@ -260,4 +267,9 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionClose_All_triggered()
 {
     mdi->closeAllSubWindows();
+}
+
+void MainWindow::on_actionOption_triggered()
+{
+    emit openWindowOption();
 }

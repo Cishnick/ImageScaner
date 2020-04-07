@@ -22,7 +22,9 @@ namespace _VectorScan
         // Испускается при закрытии окна с графиком
         void closed();
 
+
     public slots:
+
 
         // При создании вектора. Сначала надо послать этот сигнал, потом следующий
         virtual void vectorPainted(Vector const& vect) = 0;
@@ -36,6 +38,8 @@ namespace _VectorScan
         // Открытие изображения
         virtual void openedByteImage(ByteImage const& image,
                                      QString const& filename) = 0;
+
+        virtual void openWindowOption() = 0;
     };
 
     class FactoryPlotter

@@ -8,6 +8,8 @@ CalcLine::CalcLine(QObject *parent) : IPlotter(parent)
 {
     plot = FactoryPlotterWid::create(nullptr);
 
+    windOpt = new Options(nullptr);
+
     connect(this, SIGNAL(show(QByteArray const&, QColor)),
             plot, SLOT(show(QByteArray const&, QColor)) );
 
@@ -19,6 +21,23 @@ CalcLine::CalcLine(QObject *parent) : IPlotter(parent)
 
     connect(plot, SIGNAL(closed()),
             this, SIGNAL(closed()) );
+
+    connect(windOpt, SIGNAL(setCalcParam(ParamCalc const&)),
+            this, SLOT(setParam(ParamCalc const&)) );
+
+    connect(windOpt, SIGNAL(setPlotParam(Param const&)),
+            plot, SLOT(setParam(Param const&)) );
+
+    connect(this, SIGNAL(getParamPlot_sg()),
+            plot, SLOT(getParam_sl()) );
+
+    connect(plot, SIGNAL(getParam_sg(Param const&)),
+            this, SLOT(getParamPlot_sl(Param const&)) );
+
+    param.step = 1;
+
+    windOpt->setBeginCalcParam(param);
+    emit getParamPlot_sg();
 }
 
 // --------------------------------- ~CalcLine ------------------------------------
@@ -26,13 +45,21 @@ CalcLine::~CalcLine()
 {
     if(plot)
         delete plot;
+    if(!windOpt)
+        delete windOpt;
+}
+
+// --------------------------------- PostProcessing ------------------------------------
+QByteArray CalcLine::PostProcessing(QByteArray &&data)
+{
+    return std::move(data);
 }
 
 // --------------------------------- BresenhemAlg ------------------------------------
 QByteArray CalcLine::BresenhamAlg()
 {
     QByteArray res;
-    int st = step;
+    int st = param.step;
     int x0 = static_cast<int>(vector.begin.x());
     int y0 = static_cast<int>(vector.begin.y());
     int x1 = static_cast<int>(vector.end.x());
@@ -59,7 +86,7 @@ QByteArray CalcLine::BresenhamAlg()
             {
                 y += dy;
             }
-            if(st == step)
+            if(st == param.step)
             {
                 res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
                 st = 0;
@@ -77,7 +104,7 @@ QByteArray CalcLine::BresenhamAlg()
             {
                 x+=dx;
             }
-            if(st == step)
+            if(st == param.step)
             {
                 res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
                 st = 0;
@@ -99,13 +126,15 @@ void CalcLine::vectorPainted(const Vector &vect)
 void CalcLine::vectorChanged(const Vector &vect)
 {
     vector = vect;
-    emit redraw(BresenhamAlg(), vector.color);
+    emit redraw(PostProcessing(BresenhamAlg()), vector.color);
 }
 
 // --------------------------------- openedByteImage ------------------------------------
 void CalcLine::openedByteImage(const ByteImage &image, QString const& filename)
 {
-    plot->setWindowTitle("Plot of "+filename);
+    Q_UNUSED(image)
+    plot->setWindowTitle("График "+filename);
+    windOpt->setWindowTitle("Параметры " + filename);
     img = image;
 }
 
@@ -119,6 +148,25 @@ void CalcLine::vectorRemove(QColor color)
 QImage CalcLine::plotImage()
 {
     return plot->plotImage();
+}
+
+// --------------------------------- openWindowOption ------------------------------------
+void CalcLine::openWindowOption()
+{
+    emit showWidget(windOpt);
+}
+
+// --------------------------------- getParamPlot_sl ------------------------------------
+void CalcLine::getParamPlot_sl(const Param &param)
+{
+    windOpt->setBeginPlotParam(param);
+}
+
+// --------------------------------- setParam ------------------------------------
+void CalcLine::setParam(const ParamCalc &param)
+{
+    this->param = param;
+    vectorChanged(this->vector);
 }
 
 // --------------------------- FabricPlotter --------------------------------------------

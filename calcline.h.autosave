@@ -2,7 +2,7 @@
 #define CALCLINE_H
 
 #include <QObject>
-#include "plotter.h"
+#include "IPlotterWid.h"
 #include "options.h"
 
 namespace _VectorScan

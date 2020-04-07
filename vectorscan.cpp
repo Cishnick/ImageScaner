@@ -33,6 +33,9 @@ _VectorScan::VectorScan::VectorScan(QObject *parent) :
     connect(plotter, SIGNAL(closed()),
             this, SLOT(closePlotter()) );
 
+    connect(this, SIGNAL(openWindowOption_sg()),
+            plotter, SLOT(openWindowOption()) );
+
 }
 
 // ----------------------------------- ~VectorScan ---------------------------------------
@@ -83,6 +86,12 @@ void VectorScan::savePlot()
     {
         screen.save(fileName);
     }
+}
+
+// ---------------------------------- openWindowOption ----------------------------------
+void VectorScan::openWindowOption()
+{
+    emit openWindowOption_sg();
 }
 
 // ---------------------------------- closeEditor --------------------------------------

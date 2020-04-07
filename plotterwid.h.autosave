@@ -1,6 +1,6 @@
 #ifndef PLOTTERWID_H
 #define PLOTTERWID_H
-#include "plotter.h"
+#include "IPlotterWid.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPaintDevice>

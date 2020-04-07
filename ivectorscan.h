@@ -53,6 +53,9 @@ namespace _VectorScan
         virtual void LastFileName(QString const& filename) = 0;
 
         virtual void savePlot() = 0;
+
+        // Говорит открыть окно с параметрами графика
+        virtual void openWindowOption() = 0;
     };
 
 // ----------------------------------- FactoryVectorScan --------------------

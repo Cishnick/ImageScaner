@@ -21,6 +21,8 @@ namespace _VectorScan
 
     public slots:
 
+        virtual void getParam_sl() = 0;
+
         virtual void show(const QByteArray &, QColor color) = 0;
 
         virtual void redraw(const QByteArray &, QColor color) = 0;
@@ -28,7 +30,11 @@ namespace _VectorScan
         // Удаляет график с указанным цветом
         virtual void removePlot(QColor color) = 0;
 
+        virtual void setParam(Param const& param) = 0;
+
     signals:
+
+        void getParam_sg(Param const& param);
 
         // Сигнал для отображения виджета с графиком
         void showWidget(QWidget*);

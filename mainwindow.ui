@@ -25,7 +25,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;File</string>
+     <string>&amp;Файл</string>
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
@@ -34,14 +34,14 @@
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
-     <string>&amp;Edit</string>
+     <string>&amp;Правка</string>
     </property>
     <addaction name="action_Copy"/>
     <addaction name="action_Paste"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
-     <string>&amp;Window</string>
+     <string>&amp;Окно</string>
     </property>
     <addaction name="actionCascade"/>
     <addaction name="actionVectical"/>
@@ -51,13 +51,21 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>&amp;Help</string>
+     <string>&amp;Помощь</string>
     </property>
     <addaction name="action_About"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>&amp;Инструменты</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionOption"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
    <addaction name="menuWindow"/>
+   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -65,13 +73,13 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="separator"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open</string>
+    <string>&amp;Открыть</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -79,7 +87,7 @@
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>&amp;Save</string>
+    <string>&amp;Сохранить</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -87,12 +95,12 @@
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>&amp;Exit</string>
+    <string>В&amp;ыход</string>
    </property>
   </action>
   <action name="action_Copy">
    <property name="text">
-    <string>&amp;Copy</string>
+    <string>&amp;Копировать</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -100,7 +108,7 @@
   </action>
   <action name="action_Paste">
    <property name="text">
-    <string>&amp;Paste</string>
+    <string>&amp;Вставить</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
@@ -111,22 +119,22 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Cascade</string>
+    <string>&amp;Каскадом</string>
    </property>
   </action>
   <action name="actionVectical">
    <property name="text">
-    <string>&amp;Tile</string>
+    <string>&amp;Плиткой</string>
    </property>
   </action>
   <action name="action_About">
    <property name="text">
-    <string>&amp;About</string>
+    <string>О &amp;программе</string>
    </property>
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>Закрыть &amp;активное окно</string>
    </property>
    <property name="shortcut">
     <string>Shift+W</string>
@@ -134,10 +142,15 @@
   </action>
   <action name="actionClose_All">
    <property name="text">
-    <string>Close All</string>
+    <string>Закрыть &amp;все</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+  <action name="actionOption">
+   <property name="text">
+    <string>&amp;Параметры</string>
    </property>
   </action>
  </widget>

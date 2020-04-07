@@ -136,8 +136,25 @@ void PlotterWid::removePlot(QColor color)
 
     // Обновляем графики на всякий
     recalcAll();
-
     repaint();
+}
+
+// ----------------------------------- setParam ------------------------------------
+void PlotterWid::setParam(const Param &param)
+{
+    this->param = param;
+    for(auto &plot : plotList)
+    {
+        plot.width = param.plotWidth;
+    }
+    recalcAll();
+    repaint();
+}
+
+// ----------------------------------- getParam_sl ------------------------------------
+void PlotterWid::getParam_sl()
+{
+    emit getParam_sg(param);
 }
 
 // ----------------------------------- paintEvent ------------------------------------
@@ -160,8 +177,13 @@ void PlotterWid::drawGrid(QPainter &painter)
     painter.setFont(param.xGrid.textFont);
     qreal dx = static_cast<qreal>(param.rectGraph.width()) / param.xGrid.steps;
 
-    int val = param.xGrid.beginVal;
-    int dVal = (param.xGrid.endVal - param.xGrid.beginVal) / param.xGrid.steps;
+    qreal val = param.xGrid.beginVal;
+    qreal dVal = static_cast<qreal>(param.xGrid.endVal - param.xGrid.beginVal)
+            / param.xGrid.steps;
+    if(isPercent)
+    {
+        dVal /= 2.55;
+    }
 
     for(qreal x = param.rectGraph.left(); x < param.rectGraph.right() + dx; x += dx, val += dVal)
     {
@@ -176,7 +198,7 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(static_cast<int>(x - dx / 2), param.rectGraph.bottom(),
                 static_cast<int>(dx), param.margin.bottom);
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(val));
+                         QString::number(static_cast<int>(val)) + (isPercent ? "%" : ""));
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     painter.setPen(QPen(QBrush(param.yGrid.colorLine), param.yGrid.widthLine,
@@ -184,7 +206,12 @@ void PlotterWid::drawGrid(QPainter &painter)
     painter.setFont(param.yGrid.textFont);
 
     val = param.yGrid.beginVal;
-    dVal = (param.yGrid.endVal - param.yGrid.beginVal) / param.yGrid.steps;
+    dVal = static_cast<qreal>(param.yGrid.endVal - param.yGrid.beginVal) / param.yGrid.steps;
+
+    if(isPercent)
+    {
+        dVal /= 2.55;
+    }
 
     qreal dy = static_cast<qreal>(param.rectGraph.height()) / param.yGrid.steps;
     for(qreal y = param.rectGraph.bottom();  y > param.rectGraph.top() - dy; y -= dy, val += dVal)
@@ -199,7 +226,7 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(param.rectGraph.left()-param.margin.left,static_cast<int>(y - dy / 2),
                param.margin.left, static_cast<int>(dy));
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(val));
+                         QString::number(static_cast<int>(val))+ (isPercent ? "%" : ""));
     }
 
     // Рисуем оси:
@@ -305,7 +332,7 @@ void PlotterWid::resizeEvent(QResizeEvent *event)
                        event->size().width() - param.margin.left-param.margin.right,
                        event->size().height() - param.margin.top-param.margin.bottom);
 
-    param.yGrid.steps = param.rectGraph.height() / param.yGrid.widthStep;
+    //param.yGrid.steps = param.rectGraph.height() / param.yGrid.widthStep;
     recalcAll();
 }
 
