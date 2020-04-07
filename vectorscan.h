@@ -24,11 +24,9 @@ namespace _VectorScan
         void openWindowOption_sg();
 
     protected slots:
-        virtual void openedImage(const QImage &) override;
+        virtual void openedImage(const QImage &, QString const&) override;
 
-        virtual void openedByteImage(const ByteImage &) override;
-
-        virtual void LastFileName(const QString &filename) override;
+        virtual void openedByteImage(const ByteImage &, QString const&) override;
 
         virtual void savePlot() override;
 

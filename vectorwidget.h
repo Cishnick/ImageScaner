@@ -1,25 +1,41 @@
 #ifndef VECTORWIDGET_H
 #define VECTORWIDGET_H
 
-#include "vectoreditor.h"
 #include "graphicclasses.h"
 #include <QStatusBar>
 #include <QMouseEvent>
-
+#include <QLabel>
+#include <QPushButton>
+#include <QMainWindow>
 namespace _VectorScan
 {
-// Реализация IVectorWidget в отдельном *.h файле
-    class VectorWidget : public IVectorWidget
+
+    class VectorWidget : public QMainWindow
     {
         Q_OBJECT
     public:
         VectorWidget(QWidget* parent = nullptr);
 
         virtual ~VectorWidget() override = default;
+    signals:
 
-        // IVectorWidget interface
+        // Отправляется сразу после создания, аргумент - this
+        void created(QWidget*);
+
+        // Отправляется после установки первой точки, когда рисуется вектор
+        void vectorPainted(Vector const& vect);
+
+        // Отправляется при изменении параметров какого-либо вектора
+        void vectorChanged(Vector const& vect);
+
+        // Удаляет вектор с указанным цветом
+        void vectorRemove(QColor color);
+
+        // Испускается при закрытии окна
+        void closed();
+
     public:
-        virtual void start(const QImage &image, QString const& fname) override;
+        void start(const QImage &image, QString const& fname);
 
     private slots:
 
@@ -41,8 +57,11 @@ namespace _VectorScan
 
         // QObject interface
     public:
-
         virtual bool eventFilter(QObject *watched, QEvent *event) override;
+
+        // QWidget interface
+    protected:
+        virtual void closeEvent(QCloseEvent *event) override;
     };
 
 

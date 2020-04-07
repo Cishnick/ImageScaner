@@ -15,13 +15,10 @@ namespace _ImageOpener
     signals:
 
         // Передает открытое изображение
-        void openedImage(QImage const&);
+        void openedImage(QImage const&, QString const);
 
         // Передает открытое изображение в виде массива байт
-        void openedByteImage(ByteImage const&);
-
-        // Высылает имя последнего открытого файла
-        void lastFileName(QString const&);
+        void openedByteImage(ByteImage const&, QString const&);
 
         // Испускается после открытия изображения
         void openedImage();
@@ -32,16 +29,13 @@ namespace _ImageOpener
         virtual void openFile() = 0;
 
         // Делает то же, что и при openFile, но уже с готовым изображением
-        virtual void openImage(QImage const& img, QString const fileName) = 0;
+        virtual void openImage(QImage const& img, QString const& fileName) = 0;
 
         // Инициирует отправку сигнала openedByteImage
         virtual void getByteImage() = 0;
 
         // Инициирует отправку сигнала openedByteImage
         virtual void getImage() = 0;
-
-        // Для получения имени последнего открытого файла
-        virtual void getLastFileName() = 0;
     };
 
     // Создает реализацию IImageOpener

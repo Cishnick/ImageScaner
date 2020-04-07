@@ -5,49 +5,10 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QPushButton>
+#include "vectorwidget.h"
 
 namespace _VectorScan
 {
-
-// ------------------------------------ IVectorWidget ------------------------------
-    class IVectorWidget : public QMainWindow
-    {
-        Q_OBJECT
-    public:
-        IVectorWidget(QWidget* parent = nullptr) : QMainWindow(parent) {}
-        virtual ~IVectorWidget() override{}
-
-        // Запускает виджет, получая на вход изображение
-        virtual void start(QImage const& image, QString const& fname) = 0;
-
-    signals:
-        // Отправляется сразу после создания, аргумент - this
-        void created(QWidget*);
-
-        // Отправляется после установки первой точки, когда рисуется вектор
-        void vectorPainted(Vector const& vect);
-
-        // Отправляется при изменении параметров какого-либо вектора
-        void vectorChanged(Vector const& vect);
-
-        // Удаляет вектор с указанным цветом
-        void vectorRemove(QColor color);
-
-        // Испускается при закрытии окна
-        void closed();
-
-        // QWidget interface
-    protected:
-        virtual void closeEvent(QCloseEvent *event) override;
-    };
-
-// ---------------------------------- FabricWidget --------------------------------
-    class FactoryWidget
-    {
-    public:
-        static IVectorWidget* create(QWidget* parent);
-    };
-
 // ---------------------------------- VectorEditor --------------------------------
     class VectorEditor : public IVectorEditor
     {
@@ -55,7 +16,7 @@ namespace _VectorScan
     public:
         VectorEditor(QObject* parent = nullptr) : IVectorEditor(parent)
         {
-            widget = FactoryWidget::create(nullptr);
+            widget = new VectorWidget(nullptr);
 
             // Подключаем сигнал создания виджета
             connect(widget, SIGNAL(created(QWidget*)),
@@ -88,7 +49,7 @@ namespace _VectorScan
 
     private:
         // Агрегируем виджет для редактора
-        QPointer<IVectorWidget> widget;
+        QPointer<VectorWidget> widget;
     };
 }
 

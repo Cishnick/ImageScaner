@@ -31,9 +31,7 @@ namespace _ImageOpener
 
         virtual void getImage() override;
 
-        virtual void getLastFileName() override;
-
-        virtual void openImage(const QImage &img, QString const fileName) override;
+        virtual void openImage(const QImage &img, QString const& fileName) override;
     private:
 
         // Преобразует image в ByteImage, и инициализирует bImage

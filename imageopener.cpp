@@ -14,21 +14,21 @@ void ImageOpener::openFile()
         image = QImage(_lastFileName);
         translateImage();
         emit openedImage();
-        emit openedImage(image);
-        emit openedByteImage(bImage);
+        emit openedImage(image, _lastFileName);
+        emit openedByteImage(bImage, _lastFileName);
     }
 }
 
 // ----------------------------------- getByteImage ----------------------------------------
 void ImageOpener::getByteImage()
 {
-    emit openedImage(image);
+    emit openedImage(image, _lastFileName);
 }
 
 // ----------------------------------- getImage ----------------------------------------
 void ImageOpener::getImage()
 {
-    emit openedByteImage(bImage);
+    emit openedByteImage(bImage, _lastFileName);
 }
 
 // ----------------------------------- translateImage ----------------------------------------
@@ -49,21 +49,15 @@ void ImageOpener::translateImage()
     }
 }
 
-// ----------------------------------- getLastFileName ----------------------------------------
-void ImageOpener::getLastFileName()
-{
-    emit lastFileName(_lastFileName);
-}
-
 // ----------------------------------- openImage ----------------------------------------
-void ImageOpener::openImage(const QImage &img, QString const fileName)
+void ImageOpener::openImage(const QImage &img, QString const& fileName)
 {
     image = img;
     _lastFileName = fileName;
     translateImage();
     emit openedImage();
-    emit openedImage(image);
-    emit openedByteImage(bImage);
+    emit openedImage(image, fileName);
+    emit openedByteImage(bImage, fileName);
 }
 
 // ----------------------------------- Factory::create ----------------------------------------

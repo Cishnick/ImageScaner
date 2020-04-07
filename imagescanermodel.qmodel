@@ -201,84 +201,19 @@
                         <DObject>
                          <base-DElement>
                           <DElement>
-                           <uid>{92ef23b2-8451-47f4-b0e1-caadda5783b7}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{36206a58-4042-4788-8098-665a13eaeb65}</object>
-                         <context>ImageScaner</context>
-                         <name>IVectorWidget</name>
-                         <pos>x:50;y:525</pos>
-                         <rect>x:-45;y:-35;w:90;h:70</rect>
-                         <visual-role>0</visual-role>
-                        </DObject>
-                       </base-DObject>
-                       <namespace>_VectorScan</namespace>
-                      </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DClass">
-                      <DClass>
-                       <base-DObject>
-                        <DObject>
-                         <base-DElement>
-                          <DElement>
                            <uid>{a9c52005-851b-49e4-b16e-85a6152be2e1}</uid>
                           </DElement>
                          </base-DElement>
                          <object>{7113bf0e-92a7-4b04-9e9c-14b555d41f0e}</object>
                          <context>ImageScaner</context>
                          <name>VectorWidget</name>
-                         <pos>x:50;y:625</pos>
+                         <pos>x:45;y:540</pos>
                          <rect>x:-45;y:-35;w:90;h:70</rect>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
                        <namespace>_VectorScan</namespace>
                       </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DInheritance">
-                      <DInheritance>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{125d9df4-2885-4de9-9f68-ae05f30767de}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{c08afdcf-a512-47b7-a91a-74da1ef6f5ab}</object>
-                         <a>{92ef23b2-8451-47f4-b0e1-caadda5783b7}</a>
-                         <b>{a9c52005-851b-49e4-b16e-85a6152be2e1}</b>
-                        </DRelation>
-                       </base-DRelation>
-                      </DInheritance>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DAssociation">
-                      <DAssociation>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{efb2eb2d-c402-4690-af62-4f35f094db25}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{cec1330f-36ac-41b6-8923-0ec084c57aae}</object>
-                         <a>{66d1b749-abc2-458d-aa1e-a165ba6e2db4}</a>
-                         <b>{92ef23b2-8451-47f4-b0e1-caadda5783b7}</b>
-                        </DRelation>
-                       </base-DRelation>
-                       <a>
-                        <DAssociationEnd>
-                         <cradinality>*</cradinality>
-                         <navigable>true</navigable>
-                         <kind>1</kind>
-                        </DAssociationEnd>
-                       </a>
-                      </DAssociation>
                      </instance>
                     </item>
                     <item>
@@ -294,7 +229,7 @@
                          <object>{4b839567-fbda-410c-ac22-e94cd949fe45}</object>
                          <context>ImageScaner</context>
                          <name>CalcLine</name>
-                         <pos>x:180;y:415</pos>
+                         <pos>x:180;y:420</pos>
                          <rect>x:-40;y:-35;w:80;h:70</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -328,84 +263,19 @@
                         <DObject>
                          <base-DElement>
                           <DElement>
-                           <uid>{bc8f5719-3065-45b7-ad4d-d40dffb4f08e}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{d4dd65dc-69ad-4019-ad3c-66a7dfffe1d9}</object>
-                         <context>ImageScaner</context>
-                         <name>IPlotterWid</name>
-                         <pos>x:180;y:525</pos>
-                         <rect>x:-40;y:-35;w:80;h:70</rect>
-                         <visual-role>0</visual-role>
-                        </DObject>
-                       </base-DObject>
-                       <namespace>_VectorScan</namespace>
-                      </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DAssociation">
-                      <DAssociation>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{8665dad0-24ca-4ac0-ace1-de57c24bcb41}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{b3404b20-e2b1-4b5b-b2d2-fead51971979}</object>
-                         <a>{09942d2e-bc5f-43ab-93c6-fe3fed26dd23}</a>
-                         <b>{bc8f5719-3065-45b7-ad4d-d40dffb4f08e}</b>
-                        </DRelation>
-                       </base-DRelation>
-                       <a>
-                        <DAssociationEnd>
-                         <cradinality>*</cradinality>
-                         <navigable>true</navigable>
-                         <kind>1</kind>
-                        </DAssociationEnd>
-                       </a>
-                      </DAssociation>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DClass">
-                      <DClass>
-                       <base-DObject>
-                        <DObject>
-                         <base-DElement>
-                          <DElement>
                            <uid>{cb1ee801-9acf-437f-ad5f-70902c41d989}</uid>
                           </DElement>
                          </base-DElement>
                          <object>{b09894ac-e9c8-4c03-a1dc-c2b4d13c635e}</object>
                          <context>ImageScaner</context>
                          <name>PlotterWid</name>
-                         <pos>x:180;y:620</pos>
+                         <pos>x:180;y:540</pos>
                          <rect>x:-40;y:-35;w:80;h:70</rect>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
                        <namespace>_VectorScan</namespace>
                       </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DInheritance">
-                      <DInheritance>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{9c164a0f-cc2e-4ed5-8c4b-cde5007c4c2d}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{8d01969d-8820-46fe-bf2d-fe71236b6ca4}</object>
-                         <a>{bc8f5719-3065-45b7-ad4d-d40dffb4f08e}</a>
-                         <b>{cb1ee801-9acf-437f-ad5f-70902c41d989}</b>
-                        </DRelation>
-                       </base-DRelation>
-                      </DInheritance>
                      </instance>
                     </item>
                     <item>
@@ -421,7 +291,7 @@
                          <object>{ae029b06-dd11-454f-a7db-303fe2eaafcf}</object>
                          <context>ImageScaner</context>
                          <name>IImageOpener</name>
-                         <pos>x:560;y:355</pos>
+                         <pos>x:565;y:325</pos>
                          <rect>x:-45;y:-35;w:90;h:70</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -443,7 +313,7 @@
                          <object>{fc0aced2-5f61-4b7f-8ce0-925e8de2350b}</object>
                          <context>ImageScaner</context>
                          <name>ImageOpener</name>
-                         <pos>x:560;y:460</pos>
+                         <pos>x:565;y:430</pos>
                          <rect>x:-45;y:-35;w:90;h:70</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -503,8 +373,8 @@
                          </base-DElement>
                          <object>{3f45a1bf-e7b6-4ff1-be98-5b782ee81dc4}</object>
                          <name>_VectorScan</name>
-                         <pos>x:160;y:405</pos>
-                         <rect>x:-190;y:-280;w:380;h:560</rect>
+                         <pos>x:160;y:370</pos>
+                         <rect>x:-190;y:-245;w:380;h:490</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -549,7 +419,7 @@
                          </base-DElement>
                          <object>{52502746-624d-4ecf-9ea1-084b25ae6ca8}</object>
                          <name>_ImageOpener</name>
-                         <pos>x:545;y:405</pos>
+                         <pos>x:550;y:375</pos>
                          <rect>x:-115;y:-145;w:230;h:290</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -615,7 +485,7 @@
                          <object>{64906a05-81eb-4f6b-8b60-6b9f7b3105a3}</object>
                          <context>ImageScaner</context>
                          <name>Options</name>
-                         <pos>x:290;y:415</pos>
+                         <pos>x:290;y:420</pos>
                          <rect>x:-40;y:-30;w:80;h:60</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -657,7 +527,7 @@
                         </DElement>
                        </base-DElement>
                        <text>Содержит в себе векторный редактор и модуль построения графика</text>
-                       <pos>x:235;y:580</pos>
+                       <pos>x:230;y:505</pos>
                        <rect>x:0;y:0;w:108.451;h:94</rect>
                        <auto-sized>false</auto-sized>
                       </DAnnotation>
@@ -672,15 +542,65 @@
                         </DElement>
                        </base-DElement>
                        <text>Открывает изображение, переводит в оттенки серого и создает массив байт  </text>
-                       <pos>x:435;y:335</pos>
+                       <pos>x:440;y:315</pos>
                        <rect>x:0;y:0;w:76.0117;h:133</rect>
                        <auto-sized>false</auto-sized>
                       </DAnnotation>
                      </instance>
                     </item>
+                    <item>
+                     <instance type="DAssociation">
+                      <DAssociation>
+                       <base-DRelation>
+                        <DRelation>
+                         <base-DElement>
+                          <DElement>
+                           <uid>{58e76655-3121-4095-8a06-99da3349481d}</uid>
+                          </DElement>
+                         </base-DElement>
+                         <object>{f2d2b56d-3a4a-4ef4-9740-da5466274dc9}</object>
+                         <a>{66d1b749-abc2-458d-aa1e-a165ba6e2db4}</a>
+                         <b>{a9c52005-851b-49e4-b16e-85a6152be2e1}</b>
+                        </DRelation>
+                       </base-DRelation>
+                       <a>
+                        <DAssociationEnd>
+                         <cradinality>*</cradinality>
+                         <navigable>true</navigable>
+                         <kind>1</kind>
+                        </DAssociationEnd>
+                       </a>
+                      </DAssociation>
+                     </instance>
+                    </item>
+                    <item>
+                     <instance type="DAssociation">
+                      <DAssociation>
+                       <base-DRelation>
+                        <DRelation>
+                         <base-DElement>
+                          <DElement>
+                           <uid>{041a5eb7-44bd-4548-8768-9932a90b174c}</uid>
+                          </DElement>
+                         </base-DElement>
+                         <object>{60317f10-2d73-4c2c-a1cb-78f70c49cc63}</object>
+                         <a>{09942d2e-bc5f-43ab-93c6-fe3fed26dd23}</a>
+                         <b>{cb1ee801-9acf-437f-ad5f-70902c41d989}</b>
+                        </DRelation>
+                       </base-DRelation>
+                       <a>
+                        <DAssociationEnd>
+                         <cradinality>*</cradinality>
+                         <navigable>true</navigable>
+                         <kind>1</kind>
+                        </DAssociationEnd>
+                       </a>
+                      </DAssociation>
+                     </instance>
+                    </item>
                    </qlist>
                   </elements>
-                  <last-modified>1586253734178</last-modified>
+                  <last-modified>1586265653569</last-modified>
                   <toolbarid>General</toolbarid>
                  </MDiagram>
                 </base-MDiagram>
@@ -951,6 +871,35 @@
                                    </target>
                                   </handle>
                                  </item>
+                                 <item>
+                                  <handle>
+                                   <uid>{f2d2b56d-3a4a-4ef4-9740-da5466274dc9}</uid>
+                                   <target>
+                                    <instance type="MAssociation">
+                                     <MAssociation>
+                                      <base-MRelation>
+                                       <MRelation>
+                                        <base-MElement>
+                                         <MElement>
+                                          <uid>{f2d2b56d-3a4a-4ef4-9740-da5466274dc9}</uid>
+                                         </MElement>
+                                        </base-MElement>
+                                        <a>{afcaca4d-ecde-4aa0-b85e-05451034125e}</a>
+                                        <b>{7113bf0e-92a7-4b04-9e9c-14b555d41f0e}</b>
+                                       </MRelation>
+                                      </base-MRelation>
+                                      <a>
+                                       <MAssociationEnd>
+                                        <cardinality>*</cardinality>
+                                        <navigable>true</navigable>
+                                        <kind>1</kind>
+                                       </MAssociationEnd>
+                                      </a>
+                                     </MAssociation>
+                                    </instance>
+                                   </target>
+                                  </handle>
+                                 </item>
                                 </qlist>
                                </handles>
                               </handles>
@@ -1102,6 +1051,35 @@
                                         </base-MElement>
                                         <a>{4b839567-fbda-410c-ac22-e94cd949fe45}</a>
                                         <b>{64906a05-81eb-4f6b-8b60-6b9f7b3105a3}</b>
+                                       </MRelation>
+                                      </base-MRelation>
+                                      <a>
+                                       <MAssociationEnd>
+                                        <cardinality>*</cardinality>
+                                        <navigable>true</navigable>
+                                        <kind>1</kind>
+                                       </MAssociationEnd>
+                                      </a>
+                                     </MAssociation>
+                                    </instance>
+                                   </target>
+                                  </handle>
+                                 </item>
+                                 <item>
+                                  <handle>
+                                   <uid>{60317f10-2d73-4c2c-a1cb-78f70c49cc63}</uid>
+                                   <target>
+                                    <instance type="MAssociation">
+                                     <MAssociation>
+                                      <base-MRelation>
+                                       <MRelation>
+                                        <base-MElement>
+                                         <MElement>
+                                          <uid>{60317f10-2d73-4c2c-a1cb-78f70c49cc63}</uid>
+                                         </MElement>
+                                        </base-MElement>
+                                        <a>{4b839567-fbda-410c-ac22-e94cd949fe45}</a>
+                                        <b>{b09894ac-e9c8-4c03-a1dc-c2b4d13c635e}</b>
                                        </MRelation>
                                       </base-MRelation>
                                       <a>

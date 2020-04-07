@@ -1,33 +1,39 @@
 #ifndef PLOTTERWID_H
 #define PLOTTERWID_H
-#include "plotter.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPaintDevice>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include "totaldefines.h"
 
 namespace _VectorScan
 {
     // Виджет, для рисования графика
-    class PlotterWid : public IPlotterWid
+    class PlotterWid : public QWidget
     {
         Q_OBJECT
     public:
         explicit PlotterWid(QWidget *parent = nullptr);
 
-        // IPlotterWid interface
+        Param getParam() const;
+
     public slots:
-        virtual void show(const QByteArray &, QColor color) override;
+        void show(const QByteArray &, QColor color);
 
-        virtual void redraw(const QByteArray &, QColor color) override;
+        void redraw(const QByteArray &, QColor color);
 
-        virtual void removePlot(QColor color) override;
+        void removePlot(QColor color);
 
-        virtual void setParam(const Param &param) override;
+        void setParam(const Param &param);
 
-        virtual void getParam_sl() override;
+        QImage plotImage();
+
     signals:
+        // Сигнал для отображения виджета с графиком
+        void showWidget(QWidget*);
+
+        void closed();
 
     public slots:
         virtual void paintEvent(QPaintEvent* event) override;
@@ -70,8 +76,6 @@ namespace _VectorScan
         virtual void closeEvent(QCloseEvent *event) override;
 
         virtual void changeEvent(QEvent * event) override;
-
-        virtual QImage plotImage() override;
 
         virtual void contextMenuEvent(QContextMenuEvent *event) override;
 

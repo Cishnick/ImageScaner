@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(opener, SIGNAL(openedImage()),
             this,  SLOT(openedImage()) );
 
-    connect(this, SIGNAL(openImage(QImage const&, QString const)),
-            opener, SLOT(openImage(QImage const&, QString const)) );
+    connect(this, SIGNAL(openImage(QImage const&, QString const&)),
+            opener, SLOT(openImage(QImage const&, QString const&)) );
 
     connect(mdi, SIGNAL(subWindowActivated(QMdiSubWindow*)),
             this, SLOT(subWindowActivated(QMdiSubWindow*)) );
@@ -111,17 +111,11 @@ void MainWindow::openedImage()
     connect(scaner, SIGNAL(getByteImage()),
             opener, SLOT(getByteImage()) );
 
-    connect(opener, SIGNAL(openedImage(QImage const&)),
-            scaner, SLOT(openedImage(QImage const&)) );
+    connect(opener, SIGNAL(openedImage(QImage const&, QString const&)),
+            scaner, SLOT(openedImage(QImage const&, QString const&)) );
 
-    connect(opener, SIGNAL(openedByteImage(ByteImage const&)),
-            scaner, SLOT(openedByteImage(ByteImage const&)) );
-
-    connect(scaner, SIGNAL(getLastFileName()),
-            opener, SLOT(getLastFileName()) );
-
-    connect(opener, SIGNAL(lastFileName(QString const&)),
-            scaner, SLOT(LastFileName(QString const&)) );
+    connect(opener, SIGNAL(openedByteImage(ByteImage const&, QString const&)),
+            scaner, SLOT(openedByteImage(ByteImage const&, QString const&)) );
 
     connect(scaner, SIGNAL(closed(QObject*)),
             this, SLOT(closedUnit(QObject*)) );

@@ -1,12 +1,12 @@
-#include "calcline.h"
+#include "plotter.h"
 #include "math.h"
 
 using namespace _VectorScan;
 
 // --------------------------------- CaclLine ------------------------------------
-CalcLine::CalcLine(QObject *parent) : IPlotter(parent)
+Plotter::Plotter(QObject *parent) : IPlotter(parent)
 {
-    plot = FactoryPlotterWid::create(nullptr);
+    plot = new PlotterWid(nullptr);
 
     windOpt = new Options(nullptr);
 
@@ -28,20 +28,14 @@ CalcLine::CalcLine(QObject *parent) : IPlotter(parent)
     connect(windOpt, SIGNAL(setPlotParam(Param const&)),
             plot, SLOT(setParam(Param const&)) );
 
-    connect(this, SIGNAL(getParamPlot_sg()),
-            plot, SLOT(getParam_sl()) );
-
-    connect(plot, SIGNAL(getParam_sg(Param const&)),
-            this, SLOT(getParamPlot_sl(Param const&)) );
-
     param.step = 1;
 
     windOpt->setBeginCalcParam(param);
-    emit getParamPlot_sg();
+    windOpt->setBeginPlotParam(plot->getParam());
 }
 
 // --------------------------------- ~CalcLine ------------------------------------
-CalcLine::~CalcLine()
+Plotter::~Plotter()
 {
     if(plot)
         delete plot;
@@ -50,13 +44,13 @@ CalcLine::~CalcLine()
 }
 
 // --------------------------------- PostProcessing ------------------------------------
-QByteArray CalcLine::PostProcessing(QByteArray &&data)
+QByteArray Plotter::PostProcessing(QByteArray &&data)
 {
     return std::move(data);
 }
 
 // --------------------------------- BresenhemAlg ------------------------------------
-QByteArray CalcLine::BresenhamAlg()
+QByteArray Plotter::BresenhamAlg()
 {
     QByteArray res;
     int st = param.step;
@@ -116,21 +110,21 @@ QByteArray CalcLine::BresenhamAlg()
 }
 
 // --------------------------------- vectorPainted ------------------------------------
-void CalcLine::vectorPainted(const Vector &vect)
+void Plotter::vectorPainted(const Vector &vect)
 {
     vector = vect;
     emit show(BresenhamAlg(), vector.color);
 }
 
 // --------------------------------- vectorChanged ------------------------------------
-void CalcLine::vectorChanged(const Vector &vect)
+void Plotter::vectorChanged(const Vector &vect)
 {
     vector = vect;
     emit redraw(PostProcessing(BresenhamAlg()), vector.color);
 }
 
 // --------------------------------- openedByteImage ------------------------------------
-void CalcLine::openedByteImage(const ByteImage &image, QString const& filename)
+void Plotter::openedByteImage(const ByteImage &image, QString const& filename)
 {
     Q_UNUSED(image)
     plot->setWindowTitle("График "+filename);
@@ -139,31 +133,25 @@ void CalcLine::openedByteImage(const ByteImage &image, QString const& filename)
 }
 
 // --------------------------------- vectorRemove ------------------------------------
-void CalcLine::vectorRemove(QColor color)
+void Plotter::vectorRemove(QColor color)
 {
     plot->removePlot(color);
 }
 
 // --------------------------------- plotImage ------------------------------------
-QImage CalcLine::plotImage()
+QImage Plotter::plotImage()
 {
     return plot->plotImage();
 }
 
 // --------------------------------- openWindowOption ------------------------------------
-void CalcLine::openWindowOption()
+void Plotter::openWindowOption()
 {
     emit showWidget(windOpt);
 }
 
-// --------------------------------- getParamPlot_sl ------------------------------------
-void CalcLine::getParamPlot_sl(const Param &param)
-{
-    windOpt->setBeginPlotParam(param);
-}
-
 // --------------------------------- setParam ------------------------------------
-void CalcLine::setParam(const ParamCalc &param)
+void Plotter::setParam(const ParamCalc &param)
 {
     this->param = param;
     vectorChanged(this->vector);
@@ -172,5 +160,5 @@ void CalcLine::setParam(const ParamCalc &param)
 // --------------------------- FabricPlotter --------------------------------------------
 IPlotter* FactoryPlotter::create(QObject *parent)
 {
-    return new CalcLine(parent);
+    return new Plotter(parent);
 }

@@ -27,8 +27,6 @@ namespace _VectorScan
 
         void getByteImage();
 
-        void getLastFileName();
-
         // Испускается при закрытии всех окон
         void closed(QObject*);
 
@@ -46,11 +44,9 @@ namespace _VectorScan
     public slots:
 
         // По факту, слот запуска модуля
-        virtual void openedImage(QImage const&) = 0;
+        virtual void openedImage(QImage const&, QString const&) = 0;
 
-        virtual void openedByteImage(ByteImage const&) = 0;
-
-        virtual void LastFileName(QString const& filename) = 0;
+        virtual void openedByteImage(ByteImage const&, QString const&) = 0;
 
         virtual void savePlot() = 0;
 

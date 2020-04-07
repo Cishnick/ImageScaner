@@ -48,32 +48,26 @@ VectorScan::~VectorScan()
 }
 
 // ----------------------------------- openedImage ---------------------------------------
-void VectorScan::openedImage(const QImage &image)
+void VectorScan::openedImage(const QImage &image, QString const& fname)
 {
     if(openedIm)
         return;
 
-    emit getLastFileName();
-    editor->openedImage(image, windowTitle);
+    windowTitle = fname;
+    editor->openedImage(image, fname);
 
     openedIm = true;
 }
 
 // ----------------------------------- openedByteImage -----------------------------------
-void VectorScan::openedByteImage(const ByteImage &image)
+void VectorScan::openedByteImage(const ByteImage &image, QString const& fname)
 {
     if(openedByteIm)
         return;
-
-    plotter->openedByteImage(image, windowTitle);
+    windowTitle = fname;
+    plotter->openedByteImage(image, fname);
 
     openedByteIm = true;
-}
-
-// ---------------------------------- LastFileName --------------------------------------
-void VectorScan::LastFileName(const QString &filename)
-{
-    windowTitle = filename;
 }
 
 // ---------------------------------- savePlot --------------------------------------

@@ -486,7 +486,7 @@ void VectorView::drawBackground(QPainter *painter, const QRectF &rect)
 }
 
 // =============================== VectorWidget ===========================================
-VectorWidget::VectorWidget(QWidget *parent) : IVectorWidget(parent)
+VectorWidget::VectorWidget(QWidget *parent) : QMainWindow(parent)
 {
     // Создаем view и настраиваем его в layout
     view = new VectorView(this);
@@ -594,7 +594,7 @@ void VectorWidget::vectorChanged_tr(const Vector &v)
 }
 
 // --------------------------------- closeEvent ------------------------------------
-void IVectorWidget::closeEvent(QCloseEvent *event)
+void VectorWidget::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
     emit closed();
@@ -637,10 +637,4 @@ bool VectorWidget::eventFilter(QObject *watched, QEvent *event)
 IVectorEditor* FactoryVectorEditor::create(QObject* parent)
 {
     return new VectorEditor(parent);
-}
-
-// ================================= FabricWidget ============================================
-IVectorWidget *FactoryWidget::create(QWidget *parent)
-{
-    return new VectorWidget(parent);
 }

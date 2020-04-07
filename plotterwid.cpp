@@ -2,7 +2,7 @@
 using namespace _VectorScan;
 
 PlotterWid::PlotterWid(QWidget *parent) :
-    IPlotterWid(parent)
+    QWidget(parent)
 {
     // Начальный размер просто от балды)
     this->resize(650, 400);
@@ -67,6 +67,12 @@ PlotterWid::PlotterWid(QWidget *parent) :
 
     connect(cMenu, SIGNAL(triggered(QAction*)),
             this, SLOT(triggeredContext(QAction*)) );
+}
+
+// ----------------------------------- getParam ------------------------------------
+Param PlotterWid::getParam() const
+{
+    return param;
 }
 
 // ----------------------------------- show ------------------------------------
@@ -147,16 +153,12 @@ void PlotterWid::setParam(const Param &param)
     {
         plot.width = param.plotWidth;
     }
+    this->param.rectGraph = QRect(param.margin.left, param.margin.top,
+                       this->size().width() - param.margin.left-param.margin.right,
+                       this->size().height() - param.margin.top-param.margin.bottom);
     recalcAll();
     repaint();
 }
-
-// ----------------------------------- getParam_sl ------------------------------------
-void PlotterWid::getParam_sl()
-{
-    emit getParam_sg(param);
-}
-
 // ----------------------------------- paintEvent ------------------------------------
 void PlotterWid::paintEvent(QPaintEvent *event)
 {
@@ -166,7 +168,6 @@ void PlotterWid::paintEvent(QPaintEvent *event)
 
     drawGraph(painter);
     drawGrid(painter);
-
 }
 
 // ----------------------------------- drawGrid ------------------------------------
@@ -198,7 +199,7 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(static_cast<int>(x - dx / 2), param.rectGraph.bottom(),
                 static_cast<int>(dx), param.margin.bottom);
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(static_cast<int>(val)) + (isPercent ? "%" : ""));
+                         QString::number(static_cast<int>(val)));
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     painter.setPen(QPen(QBrush(param.yGrid.colorLine), param.yGrid.widthLine,
@@ -226,7 +227,7 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(param.rectGraph.left()-param.margin.left,static_cast<int>(y - dy / 2),
                param.margin.left, static_cast<int>(dy));
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(static_cast<int>(val))+ (isPercent ? "%" : ""));
+                         QString::number(static_cast<int>(val)) + (isPercent ? "%" : ""));
     }
 
     // Рисуем оси:
@@ -364,10 +365,4 @@ QImage PlotterWid::plotImage()
 void PlotterWid::contextMenuEvent(QContextMenuEvent *event)
 {
     cMenu->exec(event->globalPos());
-}
-
-// ----------------------------- FabricPlotterWid ------------------------------
-IPlotterWid *FactoryPlotterWid::create(QWidget *parent)
-{
-    return new PlotterWid(parent);
 }

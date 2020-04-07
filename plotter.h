@@ -2,21 +2,19 @@
 #define CALCLINE_H
 
 #include <QObject>
-#include "plotter.h"
+#include "plotterwid.h"
 #include "options.h"
-
+#include "iplotter.h"
 namespace _VectorScan
 {
 
-    class CalcLine : public IPlotter
+    class Plotter : public IPlotter
     {
         Q_OBJECT
     public:
-        explicit CalcLine(QObject *parent = nullptr);
+        explicit Plotter(QObject *parent = nullptr);
 
-        virtual ~CalcLine() override;
-
-
+        virtual ~Plotter() override;
     signals:
 
         // Отображает виджет
@@ -24,7 +22,7 @@ namespace _VectorScan
 
         // Перерисовывает график с новыми данными
         void redraw(QByteArray const&, QColor);
-        void getParamPlot_sg();
+
     private:
 
         QByteArray PostProcessing(QByteArray &&data);
@@ -33,7 +31,7 @@ namespace _VectorScan
         QByteArray BresenhamAlg();
 
     private:
-        QPointer<IPlotterWid> plot;
+        QPointer<PlotterWid> plot;
 
         ByteImage img;
 
@@ -59,8 +57,6 @@ namespace _VectorScan
         virtual void openWindowOption() override;
 
     private slots:
-
-        virtual void getParamPlot_sl(Param const& param);
 
         void setParam(ParamCalc const& param);
     };

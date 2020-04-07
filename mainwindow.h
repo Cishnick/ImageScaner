@@ -49,7 +49,7 @@ signals:
     // Сигнал открытия файла
     void openFile();
 
-    void openImage(QImage const&, QString const);
+    void openImage(QImage const&, QString const&);
 
     void savePlot();
 
