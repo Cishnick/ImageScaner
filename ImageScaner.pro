@@ -43,6 +43,7 @@ HEADERS += \
         ivectorscan.h \
         mainwindow.h \
         options.h \
+        parametres.h \
         plotter.h \
         plotterwid.h \
         totaldefines.h \

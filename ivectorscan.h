@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QWidget>
 #include "totaldefines.h"
+#include <parametres.h>
 
 // Пространство имен разделяет между собой основные модули программы
 namespace _VectorScan

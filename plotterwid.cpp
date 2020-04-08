@@ -26,7 +26,6 @@ PlotterWid::PlotterWid(QWidget *parent) :
     param.xGrid.beginVal  = 0;
     param.xGrid.endVal    = 100;
     param.xGrid.steps     = 1; // Не выставлять в 0! Иначе не скомпилится
-    param.yGrid.widthStep = 100;
     param.xGrid.penStyle  = Qt::PenStyle::DashLine;
     param.xGrid.colorLine = Qt::GlobalColor::gray;
     param.xGrid.widthLine = 1;
@@ -36,7 +35,6 @@ PlotterWid::PlotterWid(QWidget *parent) :
     param.yGrid.beginVal  = 0;
     param.yGrid.endVal    = 255;
     param.yGrid.steps     = 255/30;
-    param.yGrid.widthStep = 30;
     param.yGrid.penStyle  = Qt::PenStyle::DashDotLine;
     param.yGrid.colorLine = Qt::GlobalColor::darkGray;
     param.yGrid.widthLine = 1;
@@ -54,6 +52,7 @@ PlotterWid::PlotterWid(QWidget *parent) :
 
     param.plotWidth = 1.6;
     param.plotPenStyle = Qt::PenStyle::SolidLine;
+    param.yMode = ParamPlot::Percent;
 
     cMenu = new QMenu(this);
 
@@ -70,7 +69,7 @@ PlotterWid::PlotterWid(QWidget *parent) :
 }
 
 // ----------------------------------- getParam ------------------------------------
-Param PlotterWid::getParam() const
+ParamPlot PlotterWid::getParam() const
 {
     return param;
 }
@@ -92,7 +91,6 @@ void PlotterWid::show(const QByteArray &data, QColor color)
     act->setIcon(QIcon(pm));
     cMenu->addAction(act);
     plot.act = act;
-
 
     plotList.push_back(plot);
     dataList.push_back(data);
@@ -146,7 +144,7 @@ void PlotterWid::removePlot(QColor color)
 }
 
 // ----------------------------------- setParam ------------------------------------
-void PlotterWid::setParam(const Param &param)
+void PlotterWid::setParam(const ParamPlot &param)
 {
     this->param = param;
     for(auto &plot : plotList)
@@ -181,10 +179,6 @@ void PlotterWid::drawGrid(QPainter &painter)
     qreal val = param.xGrid.beginVal;
     qreal dVal = static_cast<qreal>(param.xGrid.endVal - param.xGrid.beginVal)
             / param.xGrid.steps;
-    if(isPercent)
-    {
-        dVal /= 2.55;
-    }
 
     for(qreal x = param.rectGraph.left(); x < param.rectGraph.right() + dx; x += dx, val += dVal)
     {
@@ -199,7 +193,7 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(static_cast<int>(x - dx / 2), param.rectGraph.bottom(),
                 static_cast<int>(dx), param.margin.bottom);
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(static_cast<int>(val)));
+                         QString::number(static_cast<int>(std::trunc(val))));
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     painter.setPen(QPen(QBrush(param.yGrid.colorLine), param.yGrid.widthLine,
@@ -209,7 +203,8 @@ void PlotterWid::drawGrid(QPainter &painter)
     val = param.yGrid.beginVal;
     dVal = static_cast<qreal>(param.yGrid.endVal - param.yGrid.beginVal) / param.yGrid.steps;
 
-    if(isPercent)
+
+    if(param.yMode == ParamPlot::Percent)
     {
         dVal /= 2.55;
     }
@@ -227,7 +222,8 @@ void PlotterWid::drawGrid(QPainter &painter)
         QRect r(param.rectGraph.left()-param.margin.left,static_cast<int>(y - dy / 2),
                param.margin.left, static_cast<int>(dy));
         painter.drawText(r, Qt::AlignmentFlag::AlignCenter,
-                         QString::number(static_cast<int>(val)) + (isPercent ? "%" : ""));
+                         QString::number(static_cast<int>(std::trunc(val))) +
+                         (param.yMode == ParamPlot::Percent ? "%" : ""));
     }
 
     // Рисуем оси:

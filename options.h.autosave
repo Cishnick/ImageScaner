@@ -21,12 +21,12 @@ public:
 
     void setBeginCalcParam(ParamCalc const& param);
 
-    void setBeginPlotParam(Param const& param);
+    void setBeginPlotParam(ParamPlot const& param);
 
 signals:
     void setCalcParam(ParamCalc const&);
 
-    void setPlotParam(Param const&);
+    void setPlotParam(ParamPlot const&);
 
 private slots:
     void on_spinWidthPlot_valueChanged(double arg1);
@@ -40,7 +40,7 @@ private slots:
 private:
 
     _VectorScan::ParamCalc paramCalc;
-    _VectorScan::Param     paramPlot;
+    _VectorScan::ParamPlot     paramPlot;
 
     Ui::Options *ui;
 };

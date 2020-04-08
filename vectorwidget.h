@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QMainWindow>
+#include "parametres.h"
 namespace _VectorScan
 {
 

@@ -40,7 +40,7 @@ namespace _VectorScan
         virtual void paintEvent(QPaintEvent* event) override;
 
     private:
-        ParamPlot param; // Парам парам :D Параметры
+        ParamPlot param; // Парам парам :D(Раньше ParamPlot назывался просто Param) Параметры всего в этом классе
 
         QByteArrayList dataList; // Данные для графика. Хранить их надо для пересчета координат при ресайзе
         QList<Plot>  plotList; // Графики
@@ -48,8 +48,6 @@ namespace _VectorScan
         // Показывает, отображается ли на экране виджет
         // Нужен, чтобы не отображать новое окно при рисовании нового графика
         bool isShow = false;
-
-        bool isPercent = true;  // Отображение процентов по оси Y
 
         // Это конткестная менюшка для скрытия ненужных графиков
         QMenu* cMenu;

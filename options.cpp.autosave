@@ -33,7 +33,7 @@ void Options::setBeginCalcParam(const ParamCalc &param)
     ui->spinStep->setValue(param.step);
 }
 
-void Options::setBeginPlotParam(const Param &param)
+void Options::setBeginPlotParam(const ParamPlot &param)
 {
     paramPlot = param;
     ui->spinGridY->setValue(param.yGrid.steps);
