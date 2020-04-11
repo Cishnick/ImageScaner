@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "plotterwid.h"
-#include "options.h"
+#include "paramdata.h"
 #include "iplotter.h"
 namespace _VectorScan
 {
@@ -12,16 +12,16 @@ namespace _VectorScan
     {
         Q_OBJECT
     public:
-        explicit Plotter(QObject *parent = nullptr);
+        explicit Plotter(QObject *parent, IParametres* par);
 
         virtual ~Plotter() override;
     signals:
 
         // Отображает виджет
-        void show(QByteArray const&, QColor);
+        void show(QByteArray const&, QColor, int );
 
         // Перерисовывает график с новыми данными
-        void redraw(QByteArray const&, QColor);
+        void redraw(QByteArray const&, int);
 
     private:
 
@@ -37,9 +37,7 @@ namespace _VectorScan
 
         Vector vector;
 
-        ParamCalc param;
-
-        QPointer<Options> windOpt;
+        ParamPlotter *param = nullptr;
 
         // IPlotter interface
     public slots:
@@ -54,11 +52,7 @@ namespace _VectorScan
 
         virtual QImage plotImage() override;
 
-        virtual void openWindowOption() override;
-
-    private slots:
-
-        void setParam(ParamCalc const& param);
+        virtual void updateParam(IParamData *) override;
     };
 }
 

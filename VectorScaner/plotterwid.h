@@ -7,26 +7,34 @@
 #include <QMenu>
 #include "totaldefines.h"
 #include <tgmath.h>
-#include "parametres.h"
+#include "paramdata.h"
+#include "Parametres/iparametres.h"
 namespace _VectorScan
 {
     // Виджет, для рисования графика
     class PlotterWid : public QWidget
     {
         Q_OBJECT
-    public:
-        explicit PlotterWid(QWidget *parent = nullptr);
 
-        ParamPlot getParam() const;
+        struct Plot
+        {
+            QVector<QPointF> points;
+            qreal width;
+            QColor color;
+            QAction* act;
+            int id;
+            bool isVisible;
+        };
+
+    public:
+        explicit PlotterWid(QWidget *parent, IParametres* par);
 
     public slots:
-        void show(const QByteArray &, QColor color);
+        void show(const QByteArray &, QColor color, int id);
 
-        void redraw(const QByteArray &, QColor color);
+        void redraw(const QByteArray &, int id);
 
         void removePlot(QColor color);
-
-        void setParam(const ParamPlot &param);
 
         QImage plotImage();
 
@@ -39,8 +47,11 @@ namespace _VectorScan
     public slots:
         virtual void paintEvent(QPaintEvent* event) override;
 
+        void updateParam(IParamData *);
     private:
-        ParamPlot param; // Парам парам :D(Раньше ParamPlot назывался просто Param) Параметры всего в этом классе
+        ParamPlotterWid *param = nullptr; // Парам парам :D(Раньше ParamPlot назывался просто Param) Параметры всего в этом классе
+
+        QRect rectGraph;
 
         QByteArrayList dataList; // Данные для графика. Хранить их надо для пересчета координат при ресайзе
         QList<Plot>  plotList; // Графики

@@ -38,6 +38,9 @@ struct Vector
 
     // Цвет вектора
     QColor color;
+
+    // Идентификатор вектора
+    int id;
 };
 
 Q_DECLARE_METATYPE(Vector)
@@ -63,5 +66,7 @@ const QString _dialogDir = "";
 const QStringList _fileFormats = {"bmp", "tiff", "jpg", "jpeg", "png"};
 
 // ---------------------------- Параметры -----------------------------------
+QSize const _ParamWidgetSize = QSize(480, 360);
+
 
 #endif // TOTALDEFINES_H

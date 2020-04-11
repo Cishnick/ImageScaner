@@ -3,7 +3,8 @@
 #include <QObject>
 #include <QWidget>
 #include "totaldefines.h"
-#include <parametres.h>
+#include "Parametres/iparametres.h"
+#include "paramdata.h"
 
 // Пространство имен разделяет между собой основные модули программы
 namespace _VectorScan
@@ -51,8 +52,7 @@ namespace _VectorScan
 
         virtual void savePlot() = 0;
 
-        // Говорит открыть окно с параметрами графика
-        virtual void openWindowOption() = 0;
+        virtual void getParamWidget(QWidget** widget) = 0;
     };
 
 // ----------------------------------- FactoryVectorScan --------------------
@@ -60,7 +60,7 @@ namespace _VectorScan
     {
     public:
         // Создает экземпляр
-        static IVectorScan* create(QObject* parent = nullptr);
+        static IVectorScan* create(QObject* parent, QSettings* settings);
     };
 }
 #endif // IVECTORSCAN_H

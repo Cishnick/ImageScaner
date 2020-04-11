@@ -1,0 +1,27 @@
+#ifndef IPARAMETRES_H
+#define IPARAMETRES_H
+#include <QObject>
+#include "iparamdata.h"
+
+
+class IParametres: public QObject
+{
+    Q_OBJECT
+public:
+
+signals:
+    void update(IParamData* data);
+
+public slots:
+
+    // Записывает в аргумент указатель на виджет с настройками параметров
+    virtual void getWidget(QWidget* retWidget) = 0;
+
+    // Высылает сигнал обновления для всех параметров
+    virtual void updateAll() = 0;
+
+};
+
+
+
+#endif // IPARAMETRES_H

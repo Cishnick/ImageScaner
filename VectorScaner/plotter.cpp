@@ -4,34 +4,24 @@
 using namespace _VectorScan;
 
 // --------------------------------- CaclLine ------------------------------------
-Plotter::Plotter(QObject *parent) : IPlotter(parent)
+Plotter::Plotter(QObject *parent, IParametres *par) : IPlotter(parent)
 {
-    plot = new PlotterWid(nullptr);
+    plot = new PlotterWid(nullptr, par);
 
-    windOpt = new Options(nullptr);
+    connect(par, SIGNAL(updateParam(IParamData*)),
+            this, SLOT(updateParam(IParamData*)) );
 
-    connect(this, SIGNAL(show(QByteArray const&, QColor)),
-            plot, SLOT(show(QByteArray const&, QColor)) );
+    connect(this, SIGNAL(show(QByteArray const&, QColor, int)),
+            plot, SLOT(show(QByteArray const&, QColor, int)) );
 
-    connect(this, SIGNAL(redraw(QByteArray const&, QColor)),
-            plot, SLOT(redraw(QByteArray const&, QColor)) );
+    connect(this, SIGNAL(redraw(QByteArray const&, int)),
+            plot, SLOT(redraw(QByteArray const&, int)) );
 
     connect(plot, SIGNAL(showWidget(QWidget*)),
             this, SIGNAL(showWidget(QWidget*)) );
 
     connect(plot, SIGNAL(closed()),
             this, SIGNAL(closed()) );
-
-    connect(windOpt, SIGNAL(setCalcParam(ParamCalc const&)),
-            this, SLOT(setParam(ParamCalc const&)) );
-
-    connect(windOpt, SIGNAL(setPlotParam(ParamPlot const&)),
-            plot, SLOT(setParam(ParamPlot const&)) );
-
-    param.step = 1;
-
-    windOpt->setBeginCalcParam(param);
-    windOpt->setBeginPlotParam(plot->getParam());
 }
 
 // --------------------------------- ~CalcLine ------------------------------------
@@ -39,8 +29,6 @@ Plotter::~Plotter()
 {
     if(plot)
         delete plot;
-    if(!windOpt)
-        delete windOpt;
 }
 
 // --------------------------------- PostProcessing ------------------------------------
@@ -53,7 +41,7 @@ QByteArray Plotter::PostProcessing(QByteArray &&data)
 QByteArray Plotter::BresenhamAlg()
 {
     QByteArray res;
-    int st = param.step;
+    int st = param->step();
     int x0 = static_cast<int>(vector.begin.x());
     int y0 = static_cast<int>(vector.begin.y());
     int x1 = static_cast<int>(vector.end.x());
@@ -80,7 +68,7 @@ QByteArray Plotter::BresenhamAlg()
             {
                 y += dy;
             }
-            if(st == param.step)
+            if(st == param->step())
             {
                 res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
                 st = 0;
@@ -98,7 +86,7 @@ QByteArray Plotter::BresenhamAlg()
             {
                 x+=dx;
             }
-            if(st == param.step)
+            if(st == param->step())
             {
                 res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
                 st = 0;
@@ -113,14 +101,14 @@ QByteArray Plotter::BresenhamAlg()
 void Plotter::vectorPainted(const Vector &vect)
 {
     vector = vect;
-    emit show(BresenhamAlg(), vector.color);
+    emit show(BresenhamAlg(), vector.color, vect.id);
 }
 
 // --------------------------------- vectorChanged ------------------------------------
 void Plotter::vectorChanged(const Vector &vect)
 {
     vector = vect;
-    emit redraw(PostProcessing(BresenhamAlg()), vector.color);
+    emit redraw(PostProcessing(BresenhamAlg()), vector.id);
 }
 
 // --------------------------------- openedByteImage ------------------------------------
@@ -128,7 +116,6 @@ void Plotter::openedByteImage(const ByteImage &image, QString const& filename)
 {
     Q_UNUSED(image)
     plot->setWindowTitle("График "+filename);
-    windOpt->setWindowTitle("Параметры " + filename);
     img = image;
 }
 
@@ -144,21 +131,25 @@ QImage Plotter::plotImage()
     return plot->plotImage();
 }
 
-// --------------------------------- openWindowOption ------------------------------------
-void Plotter::openWindowOption()
+// --------------------------------- plotImage ------------------------------------
+void Plotter::updateParam(IParamData * data)
 {
-    emit showWidget(windOpt);
-}
-
-// --------------------------------- setParam ------------------------------------
-void Plotter::setParam(const ParamCalc &param)
-{
-    this->param = param;
-    vectorChanged(this->vector);
+    auto temp = dynamic_cast<ParamPlotter*>(data);
+    if(temp)
+    {
+        if(param)
+        {
+            vectorChanged(this->vector);
+        }
+        else
+        {
+            param = temp;
+        }
+    }
 }
 
 // --------------------------- FabricPlotter --------------------------------------------
-IPlotter* FactoryPlotter::create(QObject *parent)
+IPlotter* FactoryPlotter::create(QObject *parent, IParametres* par)
 {
-    return new Plotter(parent);
+    return new Plotter(parent, par);
 }

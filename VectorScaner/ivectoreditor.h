@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "totaldefines.h"
+#include "Parametres/iparametres.h"
+#include "paramdata.h"
 
 namespace _VectorScan
 {
@@ -13,7 +15,7 @@ namespace _VectorScan
     protected:
         // Да, это конструктор в абстрактном классе. Он нужен. Он неявно вызывается в
         // наследниках, чтобы задать parent QObject
-        explicit IVectorEditor(QObject *parent = nullptr): QObject(parent) {}
+        explicit IVectorEditor(QObject *parent): QObject(parent) {}
 
     signals:
 
@@ -43,7 +45,7 @@ namespace _VectorScan
     class FactoryVectorEditor
     {
     public:
-        static IVectorEditor* create(QObject* parent = nullptr);
+        static IVectorEditor* create(QObject* parent, IParametres* par);
     };
 }
 #endif // IVECTOREDITOR_H

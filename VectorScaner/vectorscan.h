@@ -16,12 +16,10 @@ namespace _VectorScan
     {
         Q_OBJECT
     public:
-        VectorScan(QObject* parent = nullptr);
+        VectorScan(QObject* parent, QSettings* settings);
 
         virtual ~VectorScan() override;
 
-    signals:
-        void openWindowOption_sg();
 
     protected slots:
         virtual void openedImage(const QImage &, QString const&) override;
@@ -30,8 +28,7 @@ namespace _VectorScan
 
         virtual void savePlot() override;
 
-        virtual void openWindowOption() override;
-
+        virtual void getParamWidget(QWidget **widget) override;
     private slots:
 
         void closeEditor();
@@ -39,6 +36,8 @@ namespace _VectorScan
         void closePlotter();
 
         void showWidget_tr(QWidget* widget);
+
+        void updateParam(IParamData* data);
 
 
     private:
@@ -50,6 +49,10 @@ namespace _VectorScan
 
         // Еще нужно хранить заголовок для окна (имя открытого файла)
         QString windowTitle;
+
+        ParamVectorScan* param;
+
+        IParametres* iParam;
 
         bool openedIm = false, openedByteIm = false;
 

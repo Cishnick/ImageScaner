@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QMainWindow>
-#include "parametres.h"
 namespace _VectorScan
 {
 
@@ -41,11 +40,13 @@ namespace _VectorScan
     private slots:
 
         void statB_clicked();
-
+    public slots:
         // Эти 2 слота нужны для преобразования координат от сцены к виджету
         void vectorPainted_tr(Vector const& v);
 
         void vectorChanged_tr(Vector const& v);
+
+        void updateParam(IParamData* data);
 
     private:
         VectorScene*    scene;

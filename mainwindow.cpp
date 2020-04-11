@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "iimageopener.h"
-
 using namespace _VectorScan;
 using namespace _ImageOpener;
 
@@ -101,8 +99,9 @@ void MainWindow::closedPlotter()
 
 void MainWindow::openedImage()
 {
+    static QSettings settings("Parametres.ini", QSettings::IniFormat);
     _VectorScan::IVectorScan *scaner;
-    scaner = FactoryVectorScan::create(this);
+    scaner = FactoryVectorScan::create(this, &settings);
 
     // Слоты между сканером и открывашкой
     connect(scaner, SIGNAL(getImage()),
@@ -133,8 +132,8 @@ void MainWindow::openedImage()
     connect(scaner, SIGNAL(showWidget(QWidget*)),
             this, SLOT(showWidget(QWidget*)) );
 
-    connect(this, SIGNAL(openWindowOption()),
-            scaner, SLOT(openWindowOption()) );
+    connect(this, SIGNAL(getWidget(QWidget**)),
+            scaner, SLOT(getParamWidget(QWidget**)) );
 
     scanerList.push_back(scaner);
 }
@@ -265,5 +264,7 @@ void MainWindow::on_actionClose_All_triggered()
 
 void MainWindow::on_actionOption_triggered()
 {
-    emit openWindowOption();
+    QWidget *widget;
+    emit getWidget(&widget);
+    showWidget(widget);
 }

@@ -10,54 +10,39 @@
 #include <QHoverEvent>
 #include <QGraphicsSceneHoverEvent>
 #include <qmath.h>
+#include "Parametres/iparametres.h"
+#include "paramdata.h"
 namespace _VectorScan
 {
 // ------------------------------- VectorColor --------------------------------------------
 // Этот класс нужен ля выбора случайного цвета
     struct VectorColor
     {
-        // 27 цветов для 9
-        // Кол-во цветов = (n / 3) ^ 3
-        VectorColor(int n = 9) : N(n)
+        VectorColor()
         {
-            // Это надо чтобы в разных окнах были разные цвета
-            static uint randNum = 15;
-            qsrand(randNum++);
 
-            numColors = (n / 3)*(n / 3)*(n / 3);
-            auto i0 = 50;
-            K = N / 3;
-            d = (255 - i0) / K;
-            QVector<int> Vr(K), Vg(K), Vb(K);
+        }
+
+        void setParam(ParamVectorColor* data)
+        {
+            param = data;
+            QVector<qreal> Vh(param->number());
+            qreal dF = 360 / param->number();
             int I = 0;
-            std::generate(Vr.begin(), Vr.end(), [&I](){return I++; });
-            std::random_shuffle(Vr.begin(), Vr.end());
-
-            I = 0;
-            std::generate(Vg.begin(), Vg.end(), [&I](){return I++; });
-            std::random_shuffle(Vg.begin(), Vg.end());
-
-            I = 0;
-            std::generate(Vb.begin(), Vb.end(), [&I](){return I++; });
-            std::random_shuffle(Vb.begin(), Vb.end());
-
-            for(int i = 0; i < K; i++)
+            std::generate(Vh.begin(), Vh.end(), [dF, &I](){return dF*I++; });
+            std::random_shuffle(Vh.begin(), Vh.end());
+            for(auto H : Vh)
             {
-                for(int j = 0; j < K; j++)
-                {
-                    for(int k = 0; k < K; k++)
-                    {
-                        colors.push_back(QColor(Vr[i]*d + d / 2,
-                                                Vg[j]*d + d / 2,
-                                                Vb[k]*d + d / 2 ));
-                    }
-                }
+                QColor temp;
+                temp.setHsv(static_cast<int>(H), param->saturation(), param->velocity());
+                colors.push_back(temp);
             }
+            cur = 0;
         }
 
         void nextCurVal()
         {
-            if(cur < numColors)
+            if(cur < colors.size())
                 cur++;
         }
 
@@ -69,15 +54,15 @@ namespace _VectorScan
 
         QColor getColor()
         {
+            if(colors.isEmpty())
+                return Qt::black;
             return colors.at(cur);
         }
 
     private:
-        int numColors;
-        int N;
-        int K, d;
         int cur = 0;
         QVector<QColor>colors;
+        ParamVectorColor* param;
     };
 
 // ------------------------------- VectorObject ------------------------------------------
@@ -85,7 +70,7 @@ namespace _VectorScan
     {
         Q_OBJECT
     public:
-        VectorObject();
+        VectorObject(ParamVectorObject* par);
         virtual ~VectorObject() override;
 
         /*
@@ -127,6 +112,8 @@ namespace _VectorScan
 
         void setSelected(bool sel = false);
 
+        void setParam(ParamVectorObject* data);
+
         // Останавливает редактирование объекта
         void stopEdit();
 
@@ -135,6 +122,8 @@ namespace _VectorScan
         Vector vector;
         Vector lastVector;  // Сохраняет предыдущее состояние вектора
         ViewMode viewMode;
+
+        ParamVectorObject* param;
 
         // Радиус круглешка в начале и конце вектора
         const int rad = 5;
@@ -202,6 +191,10 @@ namespace _VectorScan
 
         EditMode editMode();
 
+        void setParam(ParamVectorColor* data);
+
+        void setParam(ParamVectorObject* data);
+
         // Не меняет режим, если рисуется вектор!
         bool setEditMode(EditMode m);
 
@@ -229,7 +222,7 @@ namespace _VectorScan
         VectorColor vColor;
         EditMode    eMode = EditMode::Drawing;
         VectorObject* currentObj = nullptr;
-
+        ParamVectorObject* paramVect;
         void removeVector();
 
     };

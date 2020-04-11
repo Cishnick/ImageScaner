@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include "totaldefines.h"
+#include "Parametres/iparamdata.h"
+#include "paramdata.h"
+#include "Parametres/iparametres.h"
 
 namespace _VectorScan
 {
@@ -39,13 +42,13 @@ namespace _VectorScan
         virtual void openedByteImage(ByteImage const& image,
                                      QString const& filename) = 0;
 
-        virtual void openWindowOption() = 0;
+        virtual void updateParam(IParamData*) = 0;
     };
 
     class FactoryPlotter
     {
     public:
-        static IPlotter* create(QObject* parent = nullptr);
+        static IPlotter* create(QObject* parent, IParametres* par);
     };
 }
 #endif // IPLOTTER_H

@@ -14,7 +14,7 @@ namespace _VectorScan
     {
         Q_OBJECT
     public:
-        VectorEditor(QObject* parent = nullptr) : IVectorEditor(parent)
+        VectorEditor(QObject* parent, IParametres* par) : IVectorEditor(parent)
         {
             widget = new VectorWidget(nullptr);
 
@@ -33,6 +33,9 @@ namespace _VectorScan
 
             connect(widget, SIGNAL(closed()),
                     this, SIGNAL(closed()) );
+
+            connect(par, SIGNAL(updateParam(IParamData*)),
+                    widget, SLOT(updateParam(IParamData*)) );
         }
 
         virtual ~VectorEditor() override
@@ -50,6 +53,7 @@ namespace _VectorScan
     private:
         // Агрегируем виджет для редактора
         QPointer<VectorWidget> widget;
+
     };
 }
 

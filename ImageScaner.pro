@@ -25,35 +25,43 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        imageopener.cpp \
+        ImageOpener/imageopener.cpp \
+        Parametres/parametres.cpp \
+        VectorScaner/paramvswidget.cpp \
+        VectorScaner/plotter.cpp \
+        VectorScaner/plotterwid.cpp \
+        VectorScaner/vectoreditor.cpp \
+        VectorScaner/vectorscan.cpp \
         main.cpp \
-        mainwindow.cpp \
-        options.cpp \
-        plotter.cpp \
-        plotterwid.cpp \
-        vectoreditor.cpp \
-        vectorscan.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        graphicclasses.h \
-        iimageopener.h \
-        imageopener.h \
-        iplotter.h \
-        ivectoreditor.h \
-        ivectorscan.h \
+        ImageOpener/iimageopener.h \
+        ImageOpener/imageopener.h \
+        ImageProcessor/iimageprocessor.h \
+        Parametres/iparamdata.h \
+        Parametres/iparametres.h \
+        Parametres/iparamwidget.h \
+        Parametres/parametres.h \
+        VectorScaner/factoryparametresvs.h \
+        VectorScaner/graphicclasses.h \
+        VectorScaner/iplotter.h \
+        VectorScaner/ivectoreditor.h \
+        VectorScaner/ivectorscan.h \
+        VectorScaner/paramdata.h \
+        VectorScaner/paramdata_set.h \
+        VectorScaner/paramvswidget.h \
+        VectorScaner/plotter.h \
+        VectorScaner/plotterwid.h \
+        VectorScaner/vectoreditor.h \
+        VectorScaner/vectorscan.h \
+        VectorScaner/vectorwidget.h \
         mainwindow.h \
-        options.h \
-        parametres.h \
-        plotter.h \
-        plotterwid.h \
-        totaldefines.h \
-        vectoreditor.h \
-        vectorscan.h \
-        vectorwidget.h
+        totaldefines.h
 
 FORMS += \
         mainwindow.ui \
-        options.ui
+        paramvswidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -61,4 +69,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    imagescanermodel.qmodel
+    imagescanermodel.qmodel \
+    parametres.qmodel

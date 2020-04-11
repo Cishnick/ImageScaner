@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QList>
-#include "iimageopener.h"
-#include "ivectorscan.h"
+#include "ImageOpener\iimageopener.h"
+#include "VectorScaner\ivectorscan.h"
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QDebug>
@@ -53,7 +53,7 @@ signals:
 
     void savePlot();
 
-    void openWindowOption();
+    void getWidget(QWidget**);
 
 private slots:
     // Слот для пункта меню open

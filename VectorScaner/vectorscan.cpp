@@ -1,14 +1,19 @@
 #include "vectorscan.h"
-
+#include "factoryparametresvs.h"
 using namespace _VectorScan;
 
 // -------------------------------- VectorScan::VectorScan ---------------------------------
-_VectorScan::VectorScan::VectorScan(QObject *parent) :
+_VectorScan::VectorScan::VectorScan(QObject *parent, QSettings* settings) :
     IVectorScan(parent)
 {
+    FactoryParametresVS factory;
+    iParam = factory.create(settings);
     // Создает реализации подмодулей
-    editor  = FactoryVectorEditor::create(this);
-    plotter = FactoryPlotter::create(this);
+    editor  = FactoryVectorEditor::create(this, iParam);
+    plotter = FactoryPlotter::create(this, iParam);
+    connect(iParam, SIGNAL(updateParam(IParamData*)),
+            this, SLOT(updateParam(IParamData*)) );
+    iParam->updateAll();
 
     // И коннектим все нужные слоты и сигналы
     connect(editor, SIGNAL(showWidget(QWidget*)),
@@ -32,9 +37,6 @@ _VectorScan::VectorScan::VectorScan(QObject *parent) :
 
     connect(plotter, SIGNAL(closed()),
             this, SLOT(closePlotter()) );
-
-    connect(this, SIGNAL(openWindowOption_sg()),
-            plotter, SLOT(openWindowOption()) );
 
 }
 
@@ -74,7 +76,8 @@ void VectorScan::openedByteImage(const ByteImage &image, QString const& fname)
 void VectorScan::savePlot()
 {
     QImage screen = plotter->plotImage();
-    auto fileName = QFileDialog::getSaveFileName(nullptr, "Сохранить "+ windowTitle, _dialogDir,
+    auto fileName = QFileDialog::getSaveFileName(nullptr, "Сохранить "+ windowTitle,
+                                                 param->saveFilePath(),
                                  "Image(*.bmp *.jpg *.jpeg *.png *.tiff)");
     if(!fileName.isEmpty())
     {
@@ -82,10 +85,10 @@ void VectorScan::savePlot()
     }
 }
 
-// ---------------------------------- openWindowOption ----------------------------------
-void VectorScan::openWindowOption()
+// ---------------------------------- getParamWidget --------------------------------------
+void VectorScan::getParamWidget(QWidget **widget)
 {
-    emit openWindowOption_sg();
+    iParam->getWidget(widget);
 }
 
 // ---------------------------------- closeEditor --------------------------------------
@@ -119,8 +122,18 @@ void VectorScan::showWidget_tr(QWidget* widget)
     emit showWidget(widget);
 }
 
-// ------------------------------------ Реализация фабрики -----------------------------
-IVectorScan* FactoryVectorScan::create(QObject* parent)
+// ---------------------------------- updateParam --------------------------------------
+void VectorScan::updateParam(IParamData *data)
 {
-    return new VectorScan(parent);
+    auto temp = dynamic_cast<ParamVectorScan*>(data);
+    if(temp)
+    {
+        param = temp;
+    }
+}
+
+// ------------------------------------ Реализация фабрики -----------------------------
+IVectorScan* FactoryVectorScan::create(QObject* parent, QSettings* settings)
+{
+    return new VectorScan(parent, settings);
 }

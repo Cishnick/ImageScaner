@@ -28,6 +28,34 @@ EditMode VectorScene::editMode()
     return eMode;
 }
 
+// ----------------------------------- setParam -----------------------------------
+void VectorScene::setParam(ParamVectorColor *data)
+{
+    vColor.setParam(data);
+    for(auto v : items())
+    {
+        auto temp = dynamic_cast<VectorObject*>(v);
+        auto vect = temp->getVector();
+        vect.color = vColor.getColor();
+        temp->setVector(vect);
+        vColor.nextCurVal();
+        emit vectorChanged(vect);
+    }
+    update();
+
+}
+
+// ----------------------------------- setParam -----------------------------------
+void VectorScene::setParam(ParamVectorObject *data)
+{
+    paramVect = data;
+    for(auto v : items())
+    {
+        dynamic_cast<VectorObject*>(v)->setParam(data);
+    }
+    update();
+}
+
 // ----------------------------------- setEditMode -----------------------------------
 bool VectorScene::setEditMode(EditMode m)
 {
@@ -51,10 +79,12 @@ void VectorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             if(!currentObj)
             {
                 Vector v;
+                static int id_ = 1;
                 v.begin = event->scenePos();
                 v.end = v.begin;
                 v.color = vColor.getColor();
-                currentObj = new VectorObject();
+                v.id = id_++;
+                currentObj = new VectorObject(paramVect);
                 currentObj->setVector(v);
                 currentObj->setMode(VectorObject::Painting);
                 addItem(currentObj);
@@ -132,7 +162,7 @@ void VectorScene::removeVector()
 }
 
 // ================================== VectorObject ====================================
-VectorObject::VectorObject() : QGraphicsObject()
+VectorObject::VectorObject(ParamVectorObject* par) : QGraphicsObject(), param(par)
 {
     setAcceptHoverEvents(true);
     // Неизвестно почему, но без этой строки не отправляется
@@ -147,7 +177,7 @@ VectorObject::~VectorObject() {}
 QRectF VectorObject::boundingRect() const
 {
     QRectF rect;
-    int coef = rad + circWid + 5;
+    int coef = param->rad() + param->circWid() + 5;
     //1. Определяем четверть
     // 1 и 2 четверти
     if(vector.begin.x() <= vector.end.x())
@@ -201,7 +231,7 @@ void VectorObject::paint(QPainter *painter,
     Q_UNUSED(widget)
 
     int alpha;
-    QColor selectColor = viewMode == ViewMode::Select ? Qt::white : Qt::lightGray;
+    QColor selectColor = viewMode == ViewMode::Select ? param->selColorBack() : param->colorBack();
 
     // На этапе рисования
     if(viewMode == ViewMode::Painting)
@@ -216,19 +246,18 @@ void VectorObject::paint(QPainter *painter,
     QColor color;
     color = vector.color;
     color.setAlpha(alpha);
-    painter->setPen(QPen(selectColor, wid, Qt::PenStyle::SolidLine));
+    painter->setPen(QPen(selectColor, param->lineWid(), param->styleBack()));
     painter->drawLine(mapFromScene(vector.begin), mapFromScene(vector.end));
-    painter->setPen(QPen(color, wid, Qt::PenStyle::DashLine));
+    painter->setPen(QPen(color, param->lineWid(), param->styleFront()));
     painter->drawLine(mapFromScene(vector.begin), mapFromScene(vector.end));
 
-    painter->setPen(QPen(QBrush(color), 1, Qt::PenStyle::SolidLine));
+    painter->setPen(QPen(QBrush(color), param->circWid(), Qt::PenStyle::SolidLine));
 
-    painter->setBrush(Qt::white);
-    painter->drawEllipse(mapFromScene(vector.begin), rad, rad);
+    painter->setBrush(param->colorBeginPoint());
+    painter->drawEllipse(mapFromScene(vector.begin), param->rad(), param->rad());
 
-    painter->setBrush(Qt::gray);
-    painter->drawEllipse(mapFromScene(vector.end  ), rad, rad);
-
+    painter->setBrush(param->colorEndPoint());
+    painter->drawEllipse(mapFromScene(vector.end  ), param->rad(), param->rad());
 }
 
 // ------------------------------------ setMode -------------------------------
@@ -273,6 +302,12 @@ void VectorObject::setSelected(bool sel)
     scene()->update();
 }
 
+// ----------------------------------- setParam -----------------------------------
+void VectorObject::setParam(ParamVectorObject *data)
+{
+    param = data;
+}
+
 // ----------------------------------- stopEdit ----------------------------------
 void VectorObject::stopEdit()
 {
@@ -285,9 +320,9 @@ QPainterPath VectorObject::point1Border(bool exp) const
 {
     qreal x1 = mapFromScene(vector.begin).x();
     qreal y1 = mapFromScene(vector.begin).y();
-    qreal inc = exp ? incR : 1.;
+    qreal inc = exp ? param->incR() : 1.;
     QPainterPath path;
-    path.addEllipse(QPointF(x1, y1), rad*inc, rad*inc);
+    path.addEllipse(QPointF(x1, y1), param->rad()*inc, param->rad()*inc);
     return path;
 }
 
@@ -296,9 +331,9 @@ QPainterPath VectorObject::point2Border(bool exp) const
 {
     qreal x2 = mapFromScene(vector.end).x();
     qreal y2 = mapFromScene(vector.end).y();
-    qreal inc = exp ? incR : 1.;
+    qreal inc = exp ? param->incR() : 1.;
     QPainterPath path;
-    path.addEllipse(QPointF(x2, y2), rad*inc, rad*inc);
+    path.addEllipse(QPointF(x2, y2), param->rad()*inc, param->rad()*inc);
     return path;
 }
 // ----------------------------------- lineBorder ----------------------------------
@@ -315,8 +350,8 @@ QPainterPath VectorObject::lineBorder(bool exp) const
     qreal y = y2 - y1;
     qreal R = qSqrt(x*x + y*y);
 
-    qreal dx =  y*(rad / R) * (exp ? incW : 1.);
-    qreal dy = -x*(rad / R) * (exp ? incW : 1.);
+    qreal dx =  y*(param->rad() / R) * (exp ? param->incW() : 1.);
+    qreal dy = -x*(param->rad() / R) * (exp ? param->incW() : 1.);
 
     QPointF p1(x1 - dx, y1 - dy);
     QPointF p2(x1 + dx, y1 + dy);
@@ -571,6 +606,7 @@ void VectorWidget::vectorPainted_tr(const Vector &v)
     temp.begin = view->mapFromScene(v.begin);
     temp.end = view->mapFromScene(v.end);
     temp.color = v.color;
+    temp.id = v.id;
     emit vectorPainted(temp);
 }
 
@@ -583,6 +619,7 @@ void VectorWidget::vectorChanged_tr(const Vector &v)
     temp.begin = view->mapFromScene(v.begin);
     temp.end = view->mapFromScene(v.end);
     temp.color = v.color;
+    temp.id = v.id;
     if(rect.contains(temp.begin.toPoint()) && rect.contains(temp.end.toPoint()))
     {
         emit vectorChanged(temp);
@@ -590,6 +627,23 @@ void VectorWidget::vectorChanged_tr(const Vector &v)
     else
     {
         scene->stopEdit();
+    }
+}
+
+// --------------------------------- updateParam ------------------------------------
+void VectorWidget::updateParam(IParamData *data)
+{
+    auto temp1 = dynamic_cast<ParamVectorColor*>(data);
+    if(temp1)
+    {
+        scene->setParam(temp1);
+        return;
+    }
+    auto temp2 = dynamic_cast<ParamVectorObject*>(data);
+    if(temp2)
+    {
+        scene->setParam(temp2);
+        return;
     }
 }
 
@@ -634,7 +688,7 @@ bool VectorWidget::eventFilter(QObject *watched, QEvent *event)
 }
 
 // ==================================== FabricVectorEditor ==================================
-IVectorEditor* FactoryVectorEditor::create(QObject* parent)
+IVectorEditor* FactoryVectorEditor::create(QObject* parent, IParametres* par)
 {
-    return new VectorEditor(parent);
+    return new VectorEditor(parent, par);
 }
