@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QList>
-#include "ImageOpener\iimageopener.h"
 #include "VectorScaner\ivectorscan.h"
 #include <QMdiArea>
 #include <QMdiSubWindow>
@@ -14,11 +13,17 @@
 #include <QMap>
 #include <QMimeData>
 #include <QVariant>
+#include "imageprocessorshall.h"
+#include <QFileDialog>
+#include <QLabel>
+#include <QStatusBar>
+#include <QThread>
+#include "OptionFilterWidget.h"
 
 namespace Ui {
 class MainWindow;
 }
-
+Q_DECLARE_METATYPE(image_t)
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -46,9 +51,6 @@ private slots:
     void subWindowActivated(QMdiSubWindow *window);
 signals:
 
-    // Сигнал открытия файла
-    void openFile();
-
     void openImage(QImage const&, QString const&);
 
     void savePlot();
@@ -56,6 +58,9 @@ signals:
     void getWidget(QWidget**);
 
 private slots:
+
+    void setStatusText(QString const& text);
+
     // Слот для пункта меню open
     void on_actionOpen_triggered();
 
@@ -79,11 +84,15 @@ private slots:
 
     void on_actionOption_triggered();
 
+    void on_actionOptionFilters_triggered();
+
 private:
+
+    void openImage_sl(QImage const&, QString const&);
+
     Ui::MainWindow *ui;
 
-    // Модуль для открытия файла
-    _ImageOpener::IImageOpener*         opener;
+    ImageProcessorShall*                proc;
 
     // Модуль для сканирования открытого файла
     QList<_VectorScan::IVectorScan*>    scanerList;
@@ -95,6 +104,13 @@ private:
 
     QMap<QAction*, QMdiSubWindow*>      windowMenu;
 
+    QLabel*                             statusLabel;
+
+    QThread                             thread;
+
+    OptionFilterWidget*                 optFilters;
+
+    QList<QWidget*>                     closedWidgets;
 
     // QObject interface
 public:

@@ -33,7 +33,7 @@ namespace _VectorScan
     private:
         QPointer<PlotterWid> plot;
 
-        ByteImage img;
+        image_t img;
 
         Vector vector;
 
@@ -45,7 +45,7 @@ namespace _VectorScan
 
         virtual void vectorChanged(const Vector &vect) override;
 
-        virtual void openedByteImage(const ByteImage &image,
+        virtual void openedByteImage(const image_t &image,
                                      QString const& filename) override;
 
         virtual void vectorRemove(QColor color) override;

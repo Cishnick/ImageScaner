@@ -62,7 +62,7 @@ void VectorScan::openedImage(const QImage &image, QString const& fname)
 }
 
 // ----------------------------------- openedByteImage -----------------------------------
-void VectorScan::openedByteImage(const ByteImage &image, QString const& fname)
+void VectorScan::openedByteImage(const image_t &image, QString const& fname)
 {
     if(openedByteIm)
         return;

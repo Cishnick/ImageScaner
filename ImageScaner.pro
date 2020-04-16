@@ -25,20 +25,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        ImageOpener/imageopener.cpp \
+        ImageProcessor/filterhandler.cpp \
+        ImageProcessor/furietransformhandler.cpp \
+        ImageProcessor/imageprocessor.cpp \
+        OptionFilterWidget.cpp \
         Parametres/parametres.cpp \
         VectorScaner/paramvswidget.cpp \
         VectorScaner/plotter.cpp \
         VectorScaner/plotterwid.cpp \
         VectorScaner/vectoreditor.cpp \
         VectorScaner/vectorscan.cpp \
+        imageprocessorshall.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
-        ImageOpener/iimageopener.h \
-        ImageOpener/imageopener.h \
+        ImageProcessor/defines.h \
+        ImageProcessor/filterhandler.h \
+        ImageProcessor/furietransformhandler.h \
+        ImageProcessor/ihandler.h \
         ImageProcessor/iimageprocessor.h \
+        ImageProcessor/imageprocessor.h \
+        OptionFilterWidget.h \
         Parametres/iparamdata.h \
         Parametres/iparametres.h \
         Parametres/iparamwidget.h \
@@ -56,11 +64,13 @@ HEADERS += \
         VectorScaner/vectoreditor.h \
         VectorScaner/vectorscan.h \
         VectorScaner/vectorwidget.h \
+        imageprocessorshall.h \
         mainwindow.h \
         totaldefines.h
 
 FORMS += \
         mainwindow.ui \
+        optionfilterwidget.ui \
         paramvswidget.ui
 
 # Default rules for deployment.

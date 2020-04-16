@@ -61,6 +61,7 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionOption"/>
+    <addaction name="actionOptionFilters"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -150,7 +151,12 @@
   </action>
   <action name="actionOption">
    <property name="text">
-    <string>&amp;Параметры</string>
+    <string>&amp;Параметры сканера...</string>
+   </property>
+  </action>
+  <action name="actionOptionFilters">
+   <property name="text">
+    <string>Параметры фильтров...</string>
    </property>
   </action>
  </widget>

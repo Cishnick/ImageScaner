@@ -13,8 +13,7 @@ namespace _VectorScan
     {
         Q_OBJECT
     protected:
-        // Да, это конструктор в абстрактном классе. Он нужен. Он неявно вызывается в
-        // наследниках, чтобы задать parent QObject
+
         explicit IVectorEditor(QObject *parent): QObject(parent) {}
 
     signals:

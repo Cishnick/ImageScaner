@@ -7,7 +7,13 @@
 using namespace _VectorScan;
 
 // ================================== VectorScene =====================================
-VectorScene::VectorScene(QObject *parent) : QGraphicsScene(parent) {}
+VectorScene::VectorScene(QObject *parent) : QGraphicsScene(parent),
+    contextMenu(new QMenu())
+{
+    contextMenu->addAction(actD);
+    connect(contextMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(slotActivated(QAction*)) );
+}
 
 // ----------------------------------- stopEdit -----------------------------------
 void VectorScene::stopEdit()
@@ -108,6 +114,7 @@ void VectorScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 currentObj->setSelected(true);
                 removeVector();
                 currentObj = nullptr;
+                contextShow = false;
             }
         }
         this->update();
@@ -159,6 +166,30 @@ void VectorScene::removeVector()
             update();
         }
     }
+}
+
+// ---------------------------- slotActivated ---------------------------
+void VectorScene::slotActivated(QAction *act)
+{
+    if(act->text() == actD)
+    {
+        act->setText(actE);
+    }
+    else
+    {
+        act->setText(actD);
+    }
+    emit changeEditMode();
+}
+
+// ---------------------------- contextMenuEvent ---------------------------
+void VectorScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    if(!contextShow)
+    {
+        contextMenu->exec(event->screenPos());
+    }
+    contextShow = true;
 }
 
 // ================================== VectorObject ====================================
@@ -311,7 +342,7 @@ void VectorObject::setParam(ParamVectorObject *data)
 // ----------------------------------- stopEdit ----------------------------------
 void VectorObject::stopEdit()
 {
-  //  leftPress = false;
+    leftPress = false;
     this->vector = this->lastVector;
 }
 
@@ -523,6 +554,7 @@ void VectorView::drawBackground(QPainter *painter, const QRectF &rect)
 // =============================== VectorWidget ===========================================
 VectorWidget::VectorWidget(QWidget *parent) : QMainWindow(parent)
 {
+    this->setWindowIcon(QIcon("main.ico"));
     // Создаем view и настраиваем его в layout
     view = new VectorView(this);
     setCentralWidget(view);
@@ -555,6 +587,9 @@ VectorWidget::VectorWidget(QWidget *parent) : QMainWindow(parent)
 
     connect(scene, SIGNAL(vectorRemove(QColor)),
             this, SIGNAL(vectorRemove(QColor)) );
+
+    connect(scene, SIGNAL(changeEditMode()),
+            this, SLOT(statB_clicked()) );
 
     statusBar()->addWidget(statLSize);
     statusBar()->addWidget(statLPos);

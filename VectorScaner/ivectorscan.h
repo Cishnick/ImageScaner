@@ -24,11 +24,6 @@ namespace _VectorScan
         // Сигнал, который посылается для отображения виджета
         void showWidget(QWidget* widget);
 
-            // Пока что не юзаются!!!
-        void getImage();
-
-        void getByteImage();
-
         // Испускается при закрытии всех окон
         void closed(QObject*);
 
@@ -48,7 +43,7 @@ namespace _VectorScan
         // По факту, слот запуска модуля
         virtual void openedImage(QImage const&, QString const&) = 0;
 
-        virtual void openedByteImage(ByteImage const&, QString const&) = 0;
+        virtual void openedByteImage(image_t const&, QString const&) = 0;
 
         virtual void savePlot() = 0;
 

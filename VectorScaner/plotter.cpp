@@ -70,7 +70,11 @@ QByteArray Plotter::BresenhamAlg()
             }
             if(st == param->step())
             {
-                res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
+                res.push_back(static_cast<char>(
+                                  img.data.at(
+                                      static_cast<size_t>(y + y0)*img.width +
+                                      static_cast<size_t>(x + x0)                                      )
+                                  ));
                 st = 0;
             }
             st++;
@@ -88,7 +92,11 @@ QByteArray Plotter::BresenhamAlg()
             }
             if(st == param->step())
             {
-                res.push_back(img.data.at((x + x0)*img.size.height() + (y + y0)));
+                res.push_back(static_cast<char>(
+                                  img.data.at(
+                                      static_cast<size_t>(y + y0)*img.width +
+                                      static_cast<size_t>(x + x0)                                      )
+                                  ));
                 st = 0;
             }
             st++;
@@ -112,7 +120,7 @@ void Plotter::vectorChanged(const Vector &vect)
 }
 
 // --------------------------------- openedByteImage ------------------------------------
-void Plotter::openedByteImage(const ByteImage &image, QString const& filename)
+void Plotter::openedByteImage(const image_t &image, QString const& filename)
 {
     Q_UNUSED(image)
     plot->setWindowTitle("График "+filename);

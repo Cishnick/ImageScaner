@@ -12,6 +12,8 @@
 #include <qmath.h>
 #include "Parametres/iparametres.h"
 #include "paramdata.h"
+#include <QMenu>
+
 namespace _VectorScan
 {
 // ------------------------------- VectorColor --------------------------------------------
@@ -207,6 +209,8 @@ namespace _VectorScan
 
         void setVectorStatus(int num, Vector const& selVector);
 
+        void changeEditMode();
+
         // QGraphicsScene interface
     protected:
 
@@ -223,8 +227,22 @@ namespace _VectorScan
         EditMode    eMode = EditMode::Drawing;
         VectorObject* currentObj = nullptr;
         ParamVectorObject* paramVect;
-        void removeVector();
+        QMenu* contextMenu;
 
+        QString const actE = "Перейти к прорисовке";
+        QString const actD = "Перейти к редактированию";
+
+        // Нужен, чтобы не показывать контекстное меню при отмене рисования
+        bool contextShow = true;
+
+        void removeVector();
+    private slots:
+
+        void slotActivated(QAction* act);
+
+        // QGraphicsScene interface
+    protected:
+        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
     };
 
 // -------------------------------- VectorView -------------------------------------------

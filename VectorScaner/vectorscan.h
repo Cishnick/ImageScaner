@@ -24,7 +24,7 @@ namespace _VectorScan
     protected slots:
         virtual void openedImage(const QImage &, QString const&) override;
 
-        virtual void openedByteImage(const ByteImage &, QString const&) override;
+        virtual void openedByteImage(const image_t &, QString const&) override;
 
         virtual void savePlot() override;
 

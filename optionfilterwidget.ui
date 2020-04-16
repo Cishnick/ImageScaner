@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>360</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="groupFilter">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>461</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Фильтр шумов</string>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>451</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="layoutFilter">
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="checkSave">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Сохранять обработанное изображение</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QComboBox" name="comboFilter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Нет фильтра</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Медианный фильтр</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Билатеральный фильтр</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QGroupBox" name="groupOption">
+       <property name="title">
+        <string>Параметры фильтра</string>
+       </property>
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>411</width>
+          <height>261</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="layoutOption">
+         <item row="0" column="0">
+          <widget class="QWidget" name="wFilterNo" native="true">
+           <widget class="QWidget" name="gridLayoutWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>20</y>
+              <width>241</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="layoutFIlterNo">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Нет фильтра</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QWidget" name="wFilterMedian" native="true">
+           <widget class="QWidget" name="gridLayoutWidget_3">
+            <property name="geometry">
+             <rect>
+              <x>9</x>
+              <y>0</y>
+              <width>381</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="layoutFilterMedian">
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="spinMedKernelSize">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>31</number>
+               </property>
+               <property name="singleStep">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Размер ядра фильтра:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QWidget" name="wFilterBilateral" native="true">
+           <widget class="QWidget" name="gridLayoutWidget_4">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>391</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="layoutFIlterBilateral">
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="spinBilKernelSIze">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>31</number>
+               </property>
+               <property name="singleStep">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Размер ядра фильтра:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>Коэффициент по интенсивности:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="spinSi">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <double>-2.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>2.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>25.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="spinSr">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <double>1.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>2.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>16.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Коэффициент по расстоянию:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -39,7 +39,7 @@ namespace _VectorScan
         virtual void vectorRemove(QColor color) = 0;
 
         // Открытие изображения
-        virtual void openedByteImage(ByteImage const& image,
+        virtual void openedByteImage(image_t const& image,
                                      QString const& filename) = 0;
 
         virtual void updateParam(IParamData*) = 0;

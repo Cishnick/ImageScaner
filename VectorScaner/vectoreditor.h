@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include "vectorwidget.h"
 
+
 namespace _VectorScan
 {
 // ---------------------------------- VectorEditor --------------------------------

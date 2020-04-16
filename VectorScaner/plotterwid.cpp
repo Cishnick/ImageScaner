@@ -4,6 +4,7 @@ using namespace _VectorScan;
 PlotterWid::PlotterWid(QWidget *parent, IParametres* par) :
     QWidget(parent)
 {
+    this->setWindowIcon(QIcon("plot.ico"));
     // Начальный размер просто от балды)
     this->resize(650, 400);
 
